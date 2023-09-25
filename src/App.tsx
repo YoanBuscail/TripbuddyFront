@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, } from 'react-router-dom';
 import { useState } from 'react'
 import './App.css';
 import Profil from './pages/Profil'; 
@@ -7,14 +7,13 @@ import Footer from './components/Footer/Footer';
 
 function App() {
   return (
-    <>
-    <Router>
-    <div className="App">
+    <BrowserRouter>
+    <div className='App'>
       <Profil />
     </div>
-    </Router>
     <Footer />
-    </>
+    </BrowserRouter>
+    
   );
 }
 
