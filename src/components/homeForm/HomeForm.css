@@ -1,0 +1,17 @@
+.home-form-itineraries{
+    
+    position: relative;
+    background-color: #f0f8ff;
+    margin-top: 45%;
+    
+    z-index: 5;
+    padding-bottom: 1000px;
+    
+}
+
+.svg{
+
+    transform: translateY(-80.45%);
+    
+}
+

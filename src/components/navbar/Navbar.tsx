@@ -1,0 +1,54 @@
+import { useState } from 'react';
+import './Navbar.css';
+import { NavLink } from 'react-router-dom';
+import LoginForm from '../LoginForm/LoginForm'
+import logoTripbuddy from "../../assets/TripBuddy-logo.png"
+
+function Navbar() {
+    const [showNav, setShowNav] = useState(false);
+    const [showLogin, setShowLogin] = useState(false);
+
+    const toggleNav = () => {
+        setShowNav(!showNav);
+    };
+    const toggleLogin = () => {
+        setShowLogin(!showLogin);
+    };
+
+
+    return (
+        <>
+            <header>
+                <nav className={`navbar dark-mode ${showNav ? 'show-nav' : ''}`} role="navigation">
+                    
+                    <div className="navbar__logo"><img className='img-logo' src={logoTripbuddy} alt="logo trip buddy"/></div>
+                    <ul className="navbar__links">
+                    <NavLink to="/" className= "navlink">
+                        <li className="navbar__link first">
+                            Accueil
+                        </li>
+                    </NavLink>
+                    <NavLink to="/itineraires" className= "navlink">
+                        <li className="navbar__link second">
+                            itinéraires
+                        </li>
+                    </NavLink>
+                    <NavLink to="/prepare-ton-voyage" className= "navlink">
+                        <li className="navbar__link third">
+                            Bien préparer son voyage
+                        </li>
+                    </NavLink>
+                    </ul>
+                    <button onClick={toggleLogin}>connexion</button>
+                
+                    <button className="burger" onClick={toggleNav}>
+                        <span className="bar"></span>
+                    </button>
+                </nav>
+                <LoginForm show={showLogin} toggleLogin={toggleLogin} />
+            </header>
+        </>
+    );
+}
+
+export default Navbar;
