@@ -1,20 +1,23 @@
-import { BrowserRouter, Route, } from 'react-router-dom';
-import { useState } from 'react'
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
-import Profil from './pages/Profil'; 
-import Logout from './'
-import Footer from './components/Footer/Footer';
+import UserProfile from './pages/UserProfile';
+import LegalMentions from './components/legalMentions/LegalMentions'
+import Footer from './components/footer/Footer'
 
 function App() {
   return (
     <BrowserRouter>
-    <div className='App'>
-      <Profil />
-    </div>
-    <Footer />
+      <div className='App'>
+        <Routes>
+          <Route path="/mentions-legales" element={<LegalMentions />} />
+          <Route path="/" element={<UserProfile />} />
+          {/* Autres routes */}
+        </Routes>
+        <Footer />
+      </div>
     </BrowserRouter>
-    
   );
 }
 
 export default App;
+
