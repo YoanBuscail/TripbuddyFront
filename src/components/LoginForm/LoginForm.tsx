@@ -7,8 +7,11 @@ function LoginForm({ show, toggleLogin }) {
     const [showLogin, setShowLogin] = useState(false);
 
 
-    const toggleRegistration = () => {
+    const toggleRegistration = (e) => {
+        e.preventDefault();
         setShowLogin(!showLogin);
+        
+        
     };
     return (
         <div>
@@ -19,10 +22,10 @@ function LoginForm({ show, toggleLogin }) {
                         <form>
                             <input className="input-texte" type="text" placeholder="email" />
                             <input className="input-texte" type="password" placeholder="mot de passe" />
-                            
+                            <button className="registration-btn" onClick={(e) => toggleRegistration(e)}>inscription</button>
                             <input className="input-submit" type="submit" value="connexion" />
                         </form>
-                        <button className="registration-btn" onClick={toggleRegistration}>inscription</button>
+                        
                     </div>
                 <RegistrationForm show={showLogin} toggleLogin={toggleRegistration}/>
             

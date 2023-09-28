@@ -39,7 +39,7 @@ function Navbar() {
                         </li>
                     </NavLink>
                     </ul>
-                    <button onClick={toggleLogin}>connexion</button>
+                    <button className='login-btn' onClick={toggleLogin}>connexion</button>
                 
                     <button className="burger" onClick={toggleNav}>
                         <span className="bar"></span>
