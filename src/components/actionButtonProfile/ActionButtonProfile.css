@@ -1,0 +1,7 @@
+.supprimer-button {
+    margin-top: auto;
+    align-self: center;
+    margin: auto;
+    display: flex; /* Ajouté */
+    justify-content: center; /* Ajouté */
+}

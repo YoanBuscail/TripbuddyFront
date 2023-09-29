@@ -1,0 +1,17 @@
+
+interface BlogItemProps {
+  imgSrc: string;
+  imgAlt: string;
+  content: string;
+}
+
+export function BlogItem({ imgSrc, imgAlt, content }: BlogItemProps) {
+  return (
+    <div className="blog-item">
+      <img src={imgSrc} alt={imgAlt} />
+      <p>{content}</p>
+    </div>
+  );
+}
+
+export default BlogItem;

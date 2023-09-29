@@ -1,8 +1,7 @@
 import React from 'react';
-import voyage from '../../assets/voyage.png';
-import './ItineraireItem.css'
+import './Itinerary.css'
 
-interface ItineraireItemProps {
+interface ItineraryProps {
     src: string;
     alt: string;
     nom: string;
@@ -10,12 +9,11 @@ interface ItineraireItemProps {
     dateFin: string;
 }
 
-
-function ItineraireItem({ src, alt, nom, dateDebut, dateFin }: ItineraireItemProps) {
+function Itinerary({ src, alt, nom, dateDebut, dateFin }: ItineraryProps) {
     return (
         <div className="itineraire-item">
             <div className='image-container'>
-            <img src={voyage} alt={alt} className='itineraire-image' />
+            <img src={src} alt={alt} className='itineraire-image' />
             </div>
             <p>{nom}</p>
             <p>{dateDebut} - {dateFin}</p>
@@ -23,4 +21,5 @@ function ItineraireItem({ src, alt, nom, dateDebut, dateFin }: ItineraireItemPro
     );
 }
 
-export default ItineraireItem;
+export default Itinerary;
+
