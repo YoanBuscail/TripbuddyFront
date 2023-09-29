@@ -1,0 +1,74 @@
+.blog-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  overflow: auto;
+}
+
+.content-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px; 
+}
+
+.blog-item {
+  margin-top: 20px;
+  display: flex; /* Ajouté */
+  flex-direction: column; /* Par défaut en mode mobile */
+  align-items: center; /* Pour centrer le texte et l'image en mode mobile */
+}
+
+.blog-item img {
+  max-width: 250px; 
+  margin:auto;
+
+}
+
+.blog-item p {
+  text-align: center;
+  margin-top: 10px;
+}
+
+@media (min-width: 768px) { /* pour les écrans d'ordinateur et plus grands */
+  .content-container {
+    display: flex;
+    flex-direction: column; /* pour garder les éléments les uns au-dessus des autres */
+  }
+
+  .blog-item:nth-child(1), .blog-item:nth-child(3) { 
+    display: flex;
+    flex-direction: row-reverse; /* image à droite, texte à gauche */
+    justify-content: space-between; /* espacer les éléments */
+    align-items: center; /* les centrer verticalement */
+  }
+
+  .blog-item:nth-child(2) {
+    display: flex;
+    flex-direction: row; /* image à gauche, texte à droite */
+    justify-content: space-between; /* espacer les éléments */
+    align-items: center; /* les centrer verticalement */
+  }
+
+  .blog-item img {
+    max-width: 50%; /* ou la taille que vous préférez */
+  }
+
+  .blog-item p {
+    max-width: 45%; /* ou la taille que vous préférez */
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
