@@ -1,13 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap');
 
-h1{
+.title-background-header{
     font-family: 'Dela Gothic One', cursive;
     font-weight: bold;
     font-size: 50px;
     position: absolute;
     z-index: 5;
     left: 50%;
-    transform: translate(-50%,100px);
+    transform: translate(-50%,400px);
     color: whitesmoke;
 }
 
@@ -34,14 +34,16 @@ h1{
     top: 0;
     left: 0;
     width: 100vw; 
-    height: 60vh; 
+    height: 100vh; 
     object-fit: cover; 
     z-index: -1; 
 }
 
 /* Styles pour les tablettes */
 @media (min-width: 500px) {
-    
+    .title-background-header{
+        transform: translate(-50%,300px);  
+    }
 }
 
 @media (min-width: 768px) {
@@ -63,5 +65,7 @@ h1{
 
 /* Styles pour les ordinateurs de bureau */
 @media (min-width: 1024px) {
-    
+    .title-background-header{
+        transform: translate(-50%,150px);  
+    }
     }

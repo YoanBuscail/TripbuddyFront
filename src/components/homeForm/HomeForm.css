@@ -1,47 +1,46 @@
 .home-form-itineraries{
     
     position: relative;
-    background-color: #f0f8ff;
-    margin-top: -100%;
+    transform: translateY(200px);
+    top: -120%;
     
     z-index: 5;
-    padding-bottom: 1000px;
     
 }
 
-.svg{
 
-    transform: translateY(-80.45%);
-    
+.video-container {
+    position: relative; 
+    width: 100%;
+    height: 100vh;
+    overflow: hidden; 
 }
 
-/* Styles pour les tablettes */
-@media (min-width: 500px) {
-    .home-form-itineraries{
-        margin-top: -68%;
-    }
+.background-video-home-form {
+    position: absolute; 
+    top: 0;
+    left: 0;
+    width: 100%; 
+    height: 100vh; 
+    object-fit: cover; 
+    z-index: -1; 
 }
 
-@media (min-width: 768px) {
-    .home-form-itineraries{
-        margin-top: -5%;
-    }
-}
 
-/* Styles pour les ordinateurs de bureau */
-@media (min-width: 1024px) {
-   
-}
+
+
+
+
 
 .search-form-home{
         z-index: 1;
-        margin-top: 30px;
+        top: 200px;
         position: relative;
         padding: 30px;
         padding-bottom: 50px;
         display: flex;
         flex-direction: column;
-        background-color: rgb(255, 255, 255);
+        background-color: rgba(0, 0, 0, 0.641);
         left: 50%;
         transform: translateX(-50%);
         width: 300px;
@@ -58,13 +57,15 @@
     transform: translateX(-50%);
     font-size: 20px;
     margin-top: 20px;
-    background-color:#2A9D8F;
+    background-color:#E76F51;
     border-radius: 10px;
     width: 150px;
 }
 
 .search-form-home-input-text{
     padding: 5px;
+    padding-top: 15px;
+    padding-bottom: 15px;
     text-align: center;
     border-radius: 10px;
 
@@ -76,11 +77,15 @@
 
 /* Styles pour les tablettes */
 @media (min-width: 500px) {
-    
+    .home-form-itineraries{
+        margin-top: -30%;
+    }
 }
 
 @media (min-width: 768px) {
-   
+    .home-form-itineraries{
+        margin-top: -5%;
+    }
 }
 
 /* Styles pour les ordinateurs de bureau */

@@ -15,6 +15,7 @@ function App() {
         <Route path='/itineraires' element={<Itineraries />} />
         <Route path='/prepare-ton-voyage' element={<TravelPreparation />} />
         <Route path='/Profil' element={<TravelPreparation />} />
+        
       </Routes>
     </BrowserRouter>
     </>

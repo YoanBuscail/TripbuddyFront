@@ -1,0 +1,128 @@
+.site-description{
+    position: relative;
+    background-color: white;
+    padding-bottom: 200px;
+   
+
+}
+
+.container-flex-site-description{
+    justify-content: center;
+    z-index: 2;
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+    gap: 60px;
+    margin-left: 70px;
+    margin-right: 70px;
+}
+
+.container-flex-site-description img{
+    z-index: -1;
+    position: absolute;
+    opacity: 0.3;
+    width: 500px;
+}
+
+.site-description-left{
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    width: 600px;
+}
+
+.title-site-description{
+    text-align: center;
+    font-size: 50px;
+    z-index: 2;
+    position: relative;
+    
+
+}
+.site-description-left p {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.site-description-left  button{
+    border: 0px;
+    padding: 10px;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 20px;
+    margin-top: 20px;
+    background-color:#E76F51;
+    border-radius: 10px;
+    width: 150px;
+    color: white;
+    transition: 1s;
+}
+
+.site-description-left button:hover{
+    cursor: pointer;
+   background-color : black;
+    color: #E76F51;;
+}
+
+
+/* Styles pour les tablettes */
+@media (min-width: 500px) {
+    .container-flex-site-description img{
+        z-index: -1;
+        position: absolute;
+        opacity: 0.3;
+        width: 500px;
+    }
+}
+
+@media (min-width: 768px) {
+  
+
+}
+
+/* Styles pour les ordinateurs de bureau */
+@media (min-width: 1024px) {
+    .container-flex-site-description img{
+    max-width: 100%;
+    position: relative;
+
+}
+
+
+.site-description-left{
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    width: 600px;
+
+}
+
+.title-site-description{
+    text-align: center;
+    font-size: 50px;
+    z-index: 2;
+    position: relative;
+    
+
+}
+.site-description-left p {
+    font-size: 20px;
+}
+
+.site-description-left  button{
+    border: 0px;
+    padding: 10px;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 20px;
+    margin-top: 20px;
+    background-color:#E76F51;
+    border-radius: 10px;
+    width: 150px;
+    color: white;
+    transition: 1s;
+}
+    }

@@ -52,7 +52,7 @@ function Navbar() {
                     </ul>
                     
                     { userData 
-                      ? <span className='welcome-message'>Bonjour {userData.firstname}</span>
+                      ? <button className='login-btn'>Profil</button>
                       : <button className='login-btn' onClick={toggleLogin}>connexion</button>
                     }
                     
