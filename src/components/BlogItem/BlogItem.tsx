@@ -6,7 +6,7 @@ interface BlogItemProps {
   imgSrc: string;
   imgAlt: string;
   content: string;
-  title: string;
+  title?: string;
 }
 
 export function BlogItem({ imgSrc, imgAlt, content }: BlogItemProps) {
