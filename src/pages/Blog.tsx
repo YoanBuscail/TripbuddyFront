@@ -1,14 +1,13 @@
-import React from 'react';
-import { BlogItem } from '../blogItem/BlogItem.png'
 import voyage from '../../assets/voyage.png';
 import trip from '../../assets/trip.png';
 import way from '../../assets/way.png';
+import BlogItem from '../components/BlogItem/BlogItem';
 
-export function BlogPage({ title }: { title: string }) {
+export function Blog({ title }: { title: string }) {
   return (
     <div className="blog-container">
       <h1>{title}</h1>
-      < div className="content-container">
+      <div className="content-container">
         <BlogItem
           imgSrc={voyage}
           imgAlt="voyage"
@@ -24,12 +23,9 @@ export function BlogPage({ title }: { title: string }) {
           imgAlt="way"
           content="Vérifiez les vaccins nécessaires et consultez un médecin ..."
         />
+      </div>
     </div>
-    </div>
-    
   );
 }
 
-
-export default BlogPage;
-
+export default Blog;
