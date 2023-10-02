@@ -8,8 +8,8 @@ function SiteDescription(){
        
         <section className="site-description">
             <div className="svg-site-description">
-                <svg id="visual" viewBox="0 0 900 600" width="" height="" >
-                <path d="M0 92L900 71L900 0L0 0Z" fill="#ff7f24" stroke-linecap="round" stroke-linejoin="miter"></path>
+                <svg id="visual" viewBox="0 0 900 600" >
+                <path d="M0 92L900 71L900 0L0 0Z" fill="#ff7f24" strokeLinecap="round" strokeLinejoin="miter"></path>
                 </svg>
             </div>
 
