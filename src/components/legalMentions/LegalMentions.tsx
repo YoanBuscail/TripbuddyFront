@@ -1,5 +1,3 @@
-import React from 'react';
-
 function LegalMentions() {
     return (
         <div>
