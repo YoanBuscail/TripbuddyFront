@@ -16,7 +16,7 @@ function Itinerary({ src, alt, nom, dateDebut, dateFin }: ItineraryProps) {
             <img src={src} alt={alt} className='itineraire-image' />
             </div>
             <p>{nom}</p>
-            <p>{dateDebut} - {dateFin}</p>
+            <p>{dateDebut}  {dateFin}</p>
         </div>
     );
 }

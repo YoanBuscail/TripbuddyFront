@@ -1,10 +1,39 @@
-import { useState } from "react";
+import axios from "axios";
+import { useState, useEffect } from "react";
+import "./UserInfo.css"
 
-function User() {
-    const [user, setUser] = useState({ nom: 'Nom', prenom: 'Prenom', email: 'Email' });
+function UserInfo({ userData }) {
+    const [user, setUser] = useState({ lastname: 'Nom', firstname: 'Prenom', email: 'Email' });
     const [isEditing, setIsEditing] = useState(false);
-    
+
+    useEffect(() => {
+        const fetchUserProfile = async () => {
+            try {
+                const token = localStorage.getItem('token');  // Récupérez le token du localStorage
+                const response = await axios.get(`http://tripbuddy.sc3wect2718.universe.wf/api/users/${userData.id}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`  // Incluez le token dans l'en-tête Authorization
+
+                        
+                    }
+                });
+                const fetchedUser = response.data;
+                console.log(fetchedUser.lastname);
+                setUser({
+                    lastname: fetchedUser.lastname ,
+                    firstname: fetchedUser.firstname,
+                    email: fetchedUser.email 
+                });
+            } catch (error) {
+                console.error("Une erreur est survenue lors de la récupération du profil utilisateur.", error);
+            }
+        };
+        
+        fetchUserProfile();  // Appelez la fonction pour récupérer le profil utilisateur
+    }, [userData.id]);
+        console.log(user)
     return (
+        
         <div className="user-info-container">
             <div className="info-container">
                 {isEditing ? (
@@ -18,14 +47,16 @@ function User() {
                         <label>Email: 
                             <input type="email" value={user.email} onChange={(e) => setUser({...user, email: e.target.value})} />
                         </label>
-                        <button onClick={() => setIsEditing(false)}>Valider</button>
+                        <button className="user-info-button"  onClick={() => setIsEditing(false)}>Valider</button>
+                        
+                        
                     </>
                 ) : (
                     <>
-                        <p>Nom: {user.nom}</p>
-                        <p>Prenom: {user.prenom}</p>
+                        <p>Nom: {user.lastname}</p>
+                        <p>Prenom: {user.firstname}</p>
                         <p>Email: {user.email}</p>
-                        <button className="modifier-button" onClick={() => setIsEditing(true)}>Modifier</button>
+                        <button className="user-info-button" onClick={() => setIsEditing(true)}>Modifier</button>
                     </>
                 )}
             </div>
@@ -33,4 +64,4 @@ function User() {
     );
 }
 
-export default User;
+export default UserInfo;
