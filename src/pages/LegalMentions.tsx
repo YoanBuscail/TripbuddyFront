@@ -1,3 +1,4 @@
+import Footer from '../components/footer/Footer.tsx';
 import LegalSection from '../components/legalSection/LegalSection.tsx'; 
 
 function LegalMentions() {
@@ -9,6 +10,7 @@ function LegalMentions() {
       <LegalSection title="3. Responsabilité" content="[Nom de votre entreprise] s'efforce d'assurer, etc..." />
       <LegalSection title="4. Politique de confidentialité" content="Veuillez consulter notre politique, etc..." />
       <LegalSection title="5. Droit applicable" content="Les présentes mentions légales sont régies, etc..." />
+      <Footer />
     </div>
   );
 }

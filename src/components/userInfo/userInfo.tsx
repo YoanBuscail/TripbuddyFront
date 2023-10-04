@@ -1,10 +1,25 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import "./UserInfo.css"
+import ActionButton from "../actionButtonProfile/ActionButtonProfile";
+import { useNavigate } from "react-router-dom";
 
 function UserInfo({ userData }) {
     const [user, setUser] = useState({ lastname: 'Nom', firstname: 'Prenom', email: 'Email' });
-    const [isEditing, setIsEditing] = useState(false);
+    const [isEditing, setIsEditing] = useState(false)
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('userData'); 
+        navigate('/');
+    };
+
+
+    
+    
+
+   
 
     useEffect(() => {
         const fetchUserProfile = async () => {
@@ -38,27 +53,37 @@ function UserInfo({ userData }) {
             <div className="info-container">
                 {isEditing ? (
                     <>
-                        <label>Nom: 
-                            <input type="text" value={user.nom} onChange={(e) => setUser({...user, nom: e.target.value})} />
-                        </label>
-                        <label>Prenom: 
-                            <input type="text" value={user.prenom} onChange={(e) => setUser({...user, prenom: e.target.value})} />
-                        </label>
-                        <label>Email: 
-                            <input type="email" value={user.email} onChange={(e) => setUser({...user, email: e.target.value})} />
-                        </label>
-                        <button className="user-info-button"  onClick={() => setIsEditing(false)}>Valider</button>
-                        
-                        
+                        <div className="info-container">
+                            <label>Nom: 
+                                <input type="text" value={user.lastname} onChange={(e) => setUser({...user, nom: e.target.value})} />
+                            </label>
+                            <label>Prenom: 
+                                <input type="text" value={user.firstname} onChange={(e) => setUser({...user, prenom: e.target.value})} />
+                            </label>
+                            <label>Email: 
+                                <input type="email" value={user.email} onChange={(e) => setUser({...user, email: e.target.value})} />
+                            </label>
+                        </div>
+                        <div className="button-profile-container">
+                            <button className="button-profile user-info-button"  onClick={() => setIsEditing(false)}>Valider</button>
+                            <ActionButton className="button-profile logout-button " label="Déconnexion" onClick={handleLogout} />
+                        </div>
                     </>
                 ) : (
                     <>
-                        <p>Nom: {user.lastname}</p>
-                        <p>Prenom: {user.firstname}</p>
-                        <p>Email: {user.email}</p>
-                        <button className="user-info-button" onClick={() => setIsEditing(true)}>Modifier</button>
+                        <div className="info-container">
+                            <p>Nom: {user.lastname}</p>
+                            <p>Prenom: {user.firstname}</p>
+                            <p>Email: {user.email}</p>
+                        </div>
+                        <div className="button-profile-container">
+                            <button className="button-profile user-info-button" onClick={() => setIsEditing(true)}>Modifier</button>
+                            <ActionButton className="button-profile logout-button" label="Déconnexion" onClick={handleLogout} />
+                        </div>
                     </>
                 )}
+
+                
             </div>
         </div>
     );

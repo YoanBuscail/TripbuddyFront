@@ -5,20 +5,45 @@
     font-size: 20px;
     display: flex;
     justify-content: center;
+    align-items: center;
+}
+
+.info-container{
+ 
+    justify-content: center;
+}
+
+.button-profile-container{
+    text-align: center;
+    justify-content: center;
+}
+
+.button-profile{
+    margin-right: 20px;
+    border: 0px solid white;
+    padding: 10px;
+    border-radius: 10px;
+    transition: 1s;   
 }
 
 .user-info-button{
     position: relative;
     margin-top: 20px;
     margin-bottom: 30px;
-    border: 0px solid white;
-    padding: 10px;
-    border-radius: 10px;
-    left: 50%;
-    transform: translateX(-50px);
-} 
+}
+
+.logout-button{
+    background-color: #e75f51;
+}
+
+
 
 .user-info-button:hover{
     cursor: pointer;
-    background-color: white;
+    background-color: #e75f51;
+}
+
+.logout-button:hover{
+    cursor: pointer;
+    background-color: #ffffff;
 }

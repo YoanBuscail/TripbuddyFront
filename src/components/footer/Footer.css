@@ -1,11 +1,17 @@
 
 .footer {
+    z-index: 10;
+    position: relative;
     background-color: #264653;
     text-align: center;
     padding: 10px;
-    position: fixed;
     left: 0;
     bottom: 0;
     width: 100%;
+    color: white;
+  }
+
+  .link-footer{
+    color: white;
   }
   
