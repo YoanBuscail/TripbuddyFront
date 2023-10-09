@@ -1,0 +1,118 @@
+.home-form-itineraries{
+    
+    position: relative;
+    transform: translateY(200px);
+    top: -120%;
+    
+    z-index: 5;
+    
+}
+
+
+.video-container {
+    position: relative; 
+    width: 100%;
+    height: 100vh;
+    overflow: hidden; 
+}
+
+.background-video-home-form {
+    position: absolute; 
+    top: 0;
+    left: 0;
+    width: 100%; 
+    height: 100vh; 
+    object-fit: cover; 
+    z-index: -1; 
+}
+
+
+
+
+
+
+
+.search-form-home{
+        z-index: 1;
+        top: 200px;
+        position: relative;
+        padding: 30px;
+        padding-bottom: 50px;
+        display: flex;
+        flex-direction: column;
+        background-color: rgba(0, 0, 0, 0.641);
+        left: 50%;
+        transform: translateX(-50%);
+        width: 280px;
+        border-radius: 50px;
+        box-shadow: 1px 1px 10px 10px rgba(0, 0, 0, 0.2);
+
+}
+
+.search-form-home-submit{
+    border: 0px;
+    padding: 10px;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 20px;
+    margin-top: 20px;
+    background-color:#E76F51;
+    border-radius: 10px;
+    width: 150px;
+}
+
+.search-form-home-input-text{
+    padding: 5px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    text-align: center;
+    border-radius: 10px;
+
+
+}
+
+
+
+
+/* Styles pour les tablettes */
+@media (min-width: 500px) {
+    .home-form-itineraries{
+        margin-top: -30%;
+    }
+}
+
+@media (min-width: 768px) {
+    .home-form-itineraries{
+        margin-top: -5%;
+    }
+}
+
+/* Styles pour les ordinateurs de bureau */
+@media (min-width: 1024px) {
+    .search-form-home{
+           
+            width: 1000px;
+            
+    
+    }
+
+    .search-form-home-input-text{
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 8px;
+        width: 350px;
+        text-align: center;
+        border-radius: 10px;
+    
+    
+    }
+
+    .home-category{
+        width: 250px;
+        
+        transform: translate(200px,80px);
+    }
+    }
+
