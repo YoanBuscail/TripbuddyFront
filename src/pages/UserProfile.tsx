@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";  // Ajoutez useEffect
 import Footer from '../components/footer/Footer';
 import UserInfo from "../components/userInfo/userInfo";
-import ActionButton from "../components/actionButtonProfile/ActionButtonProfile";
 import PopupLogout from "../components/popupLogout/PopupLogout";
 import Navbar from "../components/navbar/Navbar";
 import MyItineraries from "../components/myItineraries/myItineraries";
+import ActionButtonProfile from "../components/actionButtonProfile/ActionButtonProfile";
 
 function UserProfile() {
     const [isPopupOpen, setPopupOpen] = useState(false);
@@ -33,7 +33,7 @@ function UserProfile() {
                 
 
             <MyItineraries />
-            <ActionButton label="Supprimer le compte" onClick={() => setPopupOpen(true)} />
+            <ActionButtonProfile className="delete-button " label="Supprimer le compte" onClick={() => setPopupOpen(true)} />
                 {isPopupOpen && <PopupLogout onClose={() => setPopupOpen(false)} onConfirm={handleConfirm}/>}
             <Footer />    
             </div>

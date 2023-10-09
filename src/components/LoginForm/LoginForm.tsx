@@ -22,11 +22,6 @@ function LoginForm({ show, toggleLogin, onUserLogin }) {
         e.preventDefault();
         setError('');
 
-        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/; //regex
-    if (!emailPattern.test(email)) {
-        setError('Veuillez entrer une adresse e-mail valide.');
-        return;
-    }
 
         try {
             const response = await axios.post(
@@ -76,7 +71,7 @@ function LoginForm({ show, toggleLogin, onUserLogin }) {
                 <h2>Connexion</h2>
                 
                 <form onSubmit={handleLogin}>
-                    <input className="input-texte" type="text" placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <input className="input-texte" type="email" placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                     <input className="input-texte" type="password" placeholder="mot de passe" value={password} onChange={(e) => setPassword(e.target.value)} />
                     
                     <p className='error-msg'>{error}</p>
