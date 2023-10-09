@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from '../components/Footer/Footer';
-import UserInfo from "../components/userInfo/userInfo";
+import UserInfo from "../components/UserInfo/userInfo";
 import ActionButton from "../components/actionButtonProfile/ActionButtonProfile";
-import PopupLogout from "../components/popupLogout/PopupLogout";
+import PopupLogout from "../components/PopupLogout/PopupLogout";
 
 
 function Profile() {
