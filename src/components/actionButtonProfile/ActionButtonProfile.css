@@ -1,7 +1,8 @@
-.supprimer-button {
-    margin-top: auto;
-    align-self: center;
-    margin: auto;
-    display: flex; /* Ajouté */
-    justify-content: center; /* Ajouté */
+.delete-button {
+    cursor: pointer;
+    margin-top:300px;
+    border: 0px solid white;
+    color: red;
+    text-decoration: underline;
+    
 }

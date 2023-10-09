@@ -1,4 +1,4 @@
-import React from 'react';
+import "./ActionButtonProfile.css"
 
 interface ActionButton {
     label: string;
@@ -6,7 +6,7 @@ interface ActionButton {
     className?: string;
 }
 
-function ActionButton({ label, onClick, className = "" }) {
+function ActionButtonProfile({ label, onClick, className = "" }) {
     return (
         <button className={className} onClick={onClick}>
             {label}
@@ -14,5 +14,5 @@ function ActionButton({ label, onClick, className = "" }) {
     );
 }
 
-export default ActionButton;
+export default ActionButtonProfile;
 

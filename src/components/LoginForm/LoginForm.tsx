@@ -1,7 +1,7 @@
 import axios from 'axios';
 import RegistrationForm from "../registrationForm/RegistrationForm";
 import "./LoginForm.css";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function LoginForm({ show, toggleLogin, onUserLogin }) {
 
@@ -10,8 +10,18 @@ function LoginForm({ show, toggleLogin, onUserLogin }) {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
+    useEffect(() => {
+        if (!show) {
+            setEmail('');
+            setPassword('');
+            setError('');
+        }
+    }, [show]);
+
     const handleLogin = async (e) => {
         e.preventDefault();
+        setError('');
+
 
         try {
             const response = await axios.post(
@@ -32,12 +42,16 @@ function LoginForm({ show, toggleLogin, onUserLogin }) {
 
             localStorage.setItem('token', token);
             localStorage.setItem('userData', JSON.stringify(userData));
-            
+            toggleLogin()
+            onUserLogin(userData);
+            setError('');
+            setPassword('');
+            setError('');
             onUserLogin(userData);
             console.log("ok");
             console.log("Token reçu:", token);
-        console.log("Données utilisateur:", userData);
-            // Redirection ou mise à jour de l'état de l'application
+            console.log("Données utilisateur:", userData);
+            
         } catch (err) {
             if (err.response && err.response.data) {
                 console.error("Erreur détaillée:", err.response.data);
@@ -55,10 +69,12 @@ function LoginForm({ show, toggleLogin, onUserLogin }) {
             <div className={show ? "login-form show" : "login-form"}>
                 <span className="close-btn" onClick={toggleLogin}>&times;</span>
                 <h2>Connexion</h2>
-                {error && <p>{error}</p>}
+                
                 <form onSubmit={handleLogin}>
-                    <input className="input-texte" type="text" placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <input className="input-texte" type="email" placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                     <input className="input-texte" type="password" placeholder="mot de passe" value={password} onChange={(e) => setPassword(e.target.value)} />
+                    
+                    <p className='error-msg'>{error}</p>
                     
                     <input className="input-submit" type="submit" value="connexion" />
                 </form>
