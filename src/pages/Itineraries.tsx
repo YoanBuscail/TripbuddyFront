@@ -5,6 +5,7 @@ import client from '../api/map-api/client'
 import { useSessionToken } from "../hooks/useSessionToken"
 import { useCategories } from "../hooks/useCategories"
 import Select from 'react-select';
+import { getSuggestions } from '../api/search-api/suggestions';
 
 
 function Itineraries() {
@@ -33,9 +34,9 @@ function Itineraries() {
     const categories = useCategories()
 
     // state de la valeur de l'input suggestion
-    const [currentSuggestion, setCurrentSuggestion] = useState<any>(null)
+    const [locationName, setLocationName] = useState('');
 
-    // state de la catégorie selecionnée
+    // state de la catégorie selectionnée
     const [category, setCategory] = useState<any>(null)
 
     const sessionToken = useSessionToken();
@@ -63,7 +64,24 @@ function Itineraries() {
         }
     }, [map.current]);
 
+    const handleLocationNameChange = (e) => {
+        const newValue = e.target.value;
+        setLocationName(newValue);
     
+        // Appel de la fonction "handleSuggest" avec la nouvelle saisie
+        handleSuggest(newValue);
+      };
+    
+      const handleSuggest = async (inputValue) => {
+        
+        console.log("Keyword:", locationName);
+        console.log("Category:", category);
+        // Utilisez "inputValue" comme le paramètre keyword
+        const result = await getSuggestions(inputValue, category?.canonical_id);
+    
+        // Mise à jour de l'état des suggestions avec les résultats de la requête
+        setSuggestions(result);
+      };
 
     return (
         <>
@@ -71,31 +89,36 @@ function Itineraries() {
             <div className="map-parent" style={styleObject}>
                 <div ref={mapContainer} className="containe-map" style={styleObject} />
                 <div className="map-form" style={formStyle}>
-                    <input type="text" placeholder="Rechercher une destination" />
-                   
-                   
+                    <input
+                    type="text"
+                    placeholder="Rechercher une destination"
+                    value={locationName}
+                    onChange={handleLocationNameChange} // Appel de la fonction "handleLocationNameChange" à chaque saisie
+                    />
                     {/* Utilise react-select pour l'autocomplétion des catégories */}
                     <Select
-                        options={categories.map((item) => ({
-                            value: item.canonical_id,
-                            label: item.name,
-                        }))}
-                        onChange={(selectedOption) => {
-                            const selectedCategory = categories.find(
-                                (item) => item.canonical_id === selectedOption?.value
-                            );
-                            setCategory(selectedCategory);
-                        }}
-                        value={category ? { value: category.canonical_id, label: category.name } : null}
-                        placeholder="Selectionnez une catégorie"
-                        isSearchable={true} // Active la recherche dans le champ
+                    options={categories.map((item) => ({
+                        value: item.canonical_id,
+                        label: item.name,
+                    }))}
+                    onChange={(selectedOption) => {
+                        const selectedCategory = categories.find(
+                        (item) => item.canonical_id === selectedOption?.value
+                        );
+                        setCategory(selectedCategory);
+                    }}
+                    value={category ? { value: category.canonical_id, label: category.name } : null}
+                    placeholder="Selectionnez une catégorie"
+                    isSearchable={true} // Active la recherche dans le champ
                     />
-
-
-
+                    {/* Afficher les suggestions ici */}
+                    <ul>
+                    {suggestions.map((suggestion, index) => (
+                        <li key={index}>{suggestion.name}</li>
+                    ))}
+                    </ul>
                 </div>
-
-            </div>
+                </div>
         </>
     )
 
