@@ -2,8 +2,9 @@ import Navbar from "../components/navbar/Navbar";
 import { useEffect, useRef, useState } from 'react'
 import type { Map } from 'mapbox-gl'
 import client from '../api/map-api/client'
-import { useSessionToken } from "../hooks/useSessionToken";
-import { useCategories } from "../hooks/useCategories";
+import { useSessionToken } from "../hooks/useSessionToken"
+import { useCategories } from "../hooks/useCategories"
+import Select from 'react-select';
 
 
 function Itineraries() {
@@ -16,7 +17,7 @@ function Itineraries() {
         top: '5em',
         left: '5em',
         background: '#FFF',
-        'z-index': 20, 
+        'z-index': 20,
         padding: '1em',
     }
 
@@ -62,20 +63,38 @@ function Itineraries() {
         }
     }, [map.current]);
 
+    
+
     return (
         <>
             <Navbar />
             <div className="map-parent" style={styleObject}>
                 <div ref={mapContainer} className="containe-map" style={styleObject} />
                 <div className="map-form" style={formStyle}>
-                    <input type="text" placeholder="Rechercher un itinéraire" />
-                    
-                    <select name="select" id="select" onChange={(e) => setCategory(categories.find(item => item.canonical_id === e.target.value))}>
-                        <option disabled >Selectionnez une catégorie</option>
-                        {categories.map((item) => <option key={item.canonical_id} value={item.canonical_id}>{item.name}</option>)}
-                    </select>
+                    <input type="text" placeholder="Rechercher une destination" />
+                   
+                   
+                    {/* Utilise react-select pour l'autocomplétion des catégories */}
+                    <Select
+                        options={categories.map((item) => ({
+                            value: item.canonical_id,
+                            label: item.name,
+                        }))}
+                        onChange={(selectedOption) => {
+                            const selectedCategory = categories.find(
+                                (item) => item.canonical_id === selectedOption?.value
+                            );
+                            setCategory(selectedCategory);
+                        }}
+                        value={category ? { value: category.canonical_id, label: category.name } : null}
+                        placeholder="Selectionnez une catégorie"
+                        isSearchable={true} // Active la recherche dans le champ
+                    />
+
+
+
                 </div>
-                
+
             </div>
         </>
     )
