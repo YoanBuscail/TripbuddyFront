@@ -66,8 +66,17 @@ form{
 .registration-btn {
     background-color: white;
     border: 0px solid white;
-    margin-left: 60%;
+    position: relative;
     cursor: pointer;
-    color: blue;
+    color: rgb(0, 0, 232);
     text-decoration: underline;
+    right: 50%;
+    transform: translate(50%, 10px);
+    
+}
+
+.error-msg{
+    text-align: center;
+    color: red;
+    font-size: 12px;
 }

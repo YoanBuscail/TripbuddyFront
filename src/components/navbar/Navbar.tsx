@@ -22,11 +22,15 @@ function Navbar() {
     };
 
     useEffect(() => {
-        const storedUserData = localStorage.getItem('userData');
-        if (storedUserData) {
-            setUserData(JSON.parse(storedUserData));
-        }
+        
+            const storedUserData = localStorage.getItem('userData');
+            if (storedUserData) {
+                setUserData(JSON.parse(storedUserData));
+            } else {
+                setUserData(null); // Mettez à jour l'état si l'utilisateur est déconnecté
+            };
     }, []);
+    
 
     return (
         <>
@@ -52,7 +56,7 @@ function Navbar() {
                     </ul>
                     
                     { userData 
-                      ? <button className='login-btn'>Profil</button>
+                      ? <NavLink to="/profil" ><button className='login-btn'>Profil</button></NavLink>
                       : <button className='login-btn' onClick={toggleLogin}>connexion</button>
                     }
                     
