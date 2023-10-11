@@ -1,8 +1,7 @@
 import client from "./client";
 
 // Fonction pour obtenir des suggestions en fonction du mot-clé, de la catégorie et de la bbox
-export const getSuggestions = async (keyword: string, category: string)  => {       // ajouter bbox: string en paramètre si nécessaire
-  try {
+export const getSuggestions = async (keyword: string, category: string, sessionToken: string)  => {       // ajouter bbox: string en paramètre si nécessaire
     // Effectuer une requête GET vers l'API de suggestions
     const { data } = await client.get("/suggest", {
       params: {
@@ -12,13 +11,10 @@ export const getSuggestions = async (keyword: string, category: string)  => {   
         q: keyword, // Mot-clé de recherche
         poi_category: category, // Catégorie de POI
         // bbox: bbox, // Zone de délimitation de la recherche (décommenter si nécessaire)
+        session_token: sessionToken,
       },
     });
 
-    // Retourner la liste des suggestions (listItems) ou un tableau vide en cas d'erreur
-    return data?.listItems || [];
-  } catch (error) {
-    console.error("Erreur lors de la récupération des suggestions :", error);
-    return [];
-  }
+    // Retourner la liste des suggestions ou un tableau vide en cas d'erreur
+    return data?.suggestions ?? [];
 };

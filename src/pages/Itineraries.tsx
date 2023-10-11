@@ -6,6 +6,7 @@ import { useSessionToken } from "../hooks/useSessionToken"
 import { useCategories } from "../hooks/useCategories"
 import Select from 'react-select';
 import { getSuggestions } from '../api/search-api/suggestions';
+import { getRetrieve } from "../api/search-api/retrieve";
 
 
 function Itineraries() {
@@ -18,7 +19,7 @@ function Itineraries() {
         top: '5em',
         left: '5em',
         background: '#FFF',
-        'z-index': 20,
+        'zIndex': 20,
         padding: '1em',
     }
 
@@ -40,6 +41,9 @@ function Itineraries() {
     const [category, setCategory] = useState<any>(null)
 
     const sessionToken = useSessionToken();
+
+    // state pour l'itinéraire
+    const [itinerary, setItinerary] = useState<any[]>([]);
 
     useEffect(() => {
         if (mapContainer.current && !map.current) {
@@ -70,54 +74,111 @@ function Itineraries() {
     
         // Appel de la fonction "handleSuggest" avec la nouvelle saisie
         handleSuggest(newValue);
-      };
+    };
     
-      const handleSuggest = async (inputValue) => {
-        
-        console.log("Keyword:", locationName);
-        console.log("Category:", category);
-        // Utilisez "inputValue" comme le paramètre keyword
-        const result = await getSuggestions(inputValue, category?.canonical_id);
+    const handleSuggest = async (inputValue: string) => {
+        try {
+            console.log("Keyword:", inputValue);
+            console.log("Category:", category);
     
-        // Mise à jour de l'état des suggestions avec les résultats de la requête
-        setSuggestions(result);
-      };
+            // Utilise la valeur actuelle de locationName comme le paramètre keyword
+            const result = await getSuggestions(inputValue, category?.canonical_id, sessionToken);
+            /* const data = await response.json();
+             */
+            console.log("Suggestions:", result);
+    
+            // Mise à jour de l'état des suggestions avec les résultats de la requête
+            setSuggestions(result);
+
+        } catch (error) {
+            console.error("Erreur lors de la récupération des suggestions :", error);
+            setSuggestions([]);
+        }
+    };
+
+    const handleSuggestSelection = async (selectedOption) => {
+        const retrieveSuggestion = await getRetrieve(selectedOption.value, sessionToken);
+        console.log("Suggestion sélectionnée:", retrieveSuggestion);
+    
+        const coordinates = retrieveSuggestion.features[0].geometry.coordinates;
+        console.log("Coordonnées de la suggestion:", coordinates);
+
+        const marker = new client.Marker()
+            .setLngLat(coordinates)
+            .addTo(map.current);
+    
+        const name = retrieveSuggestion.features[0].properties.name;
+        const address = retrieveSuggestion.features[0].properties.address;
+        const placeFormatted = retrieveSuggestion.features[0].properties.place_formatted;
+    
+        const addDestination = () => {
+            setItinerary([...itinerary, retrieveSuggestion.features[0]]);
+        };
+    
+        const popupContent = `
+            <p><strong>${name}</strong></p>
+            ${address ? `<p>${address}</p>` : ''}
+            <p>${placeFormatted}</p>
+            <button onclick=${addDestination()}>Ajouter à mon itinéraire</button>
+        `;
+    
+        const popup = new client.Popup()
+            .setHTML(popupContent);
+    
+        marker.setPopup(popup);
+    };
+
 
     return (
         <>
             <Navbar />
             <div className="map-parent" style={styleObject}>
                 <div ref={mapContainer} className="containe-map" style={styleObject} />
-                <div className="map-form" style={formStyle}>
-                    <input
-                    type="text"
-                    placeholder="Rechercher une destination"
-                    value={locationName}
-                    onChange={handleLocationNameChange} // Appel de la fonction "handleLocationNameChange" à chaque saisie
-                    />
-                    {/* Utilise react-select pour l'autocomplétion des catégories */}
-                    <Select
-                    options={categories.map((item) => ({
-                        value: item.canonical_id,
-                        label: item.name,
-                    }))}
-                    onChange={(selectedOption) => {
-                        const selectedCategory = categories.find(
-                        (item) => item.canonical_id === selectedOption?.value
-                        );
-                        setCategory(selectedCategory);
-                    }}
-                    value={category ? { value: category.canonical_id, label: category.name } : null}
-                    placeholder="Selectionnez une catégorie"
-                    isSearchable={true} // Active la recherche dans le champ
-                    />
-                    {/* Afficher les suggestions ici */}
-                    <ul>
-                    {suggestions.map((suggestion, index) => (
-                        <li key={index}>{suggestion.name}</li>
-                    ))}
-                    </ul>
-                </div>
+                    <div className="map-form" style={formStyle}>
+                        
+                        <input
+                        type="text"
+                        placeholder="Rechercher une destination"
+                        value={locationName}
+                        onChange={handleLocationNameChange} // Appel de la fonction "handleLocationNameChange" à chaque saisie
+                        />
+                        
+                        {/* Utilise react-select pour l'autocomplétion des catégories */}
+                        <Select
+                        options={categories.map((item) => ({value: item.canonical_id, label: item.name}))}
+                        onChange={(selectedOption) => {
+                            const selectedCategory = categories.find((item) => item.canonical_id === selectedOption?.value);
+                            setCategory(selectedCategory);
+                        }}
+                        value={category ? { value: category.canonical_id, label: category.name } : null}
+                        placeholder="Selectionnez une catégorie"
+                        isSearchable={true} // Active la recherche dans le champ
+                        />
+                        
+                        {/* Afficher les suggestions ici */}
+                        <Select
+                            options={suggestions?.map((suggestion) => ({value: suggestion.mapbox_id, label: suggestion.name}))}
+                            onChange={(selectedOption) => {                
+                                // Appel de la fonction de récupération des détails de la suggestion sélectionnée
+                                handleSuggestSelection(selectedOption);
+                            }}
+                            value={null} // Assurez-vous que la valeur soit null au début
+                            placeholder="Sélectionnez une suggestion"
+                            isSearchable={true}
+                        />
+
+                        <div className="itinerary">
+                            <h2>Itinéraire</h2>
+                            <ul>
+                                {itinerary.map((item, index) => (
+                                    <li key={index}>
+                                        {item.properties.name}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+
+                    </div>
                 </div>
         </>
     )
