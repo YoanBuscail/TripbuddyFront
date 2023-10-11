@@ -7,3 +7,22 @@ import TravelPreparation from './pages/TravelPreparation';
 import UserProfile from './pages/UserProfile';
 import Footer from './components/footer/Footer';
 
+function App() {
+
+  return (
+    <>
+     <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/itineraires' element={<Itineraries />} />
+        <Route path='/prepare-ton-voyage' element={<TravelPreparation />} />
+        <Route path='/Profil' element={<UserProfile />} />
+        <Route path='/mentions-legales' element={<Footer />} />
+      </Routes>
+    </BrowserRouter>
+    </>
+  )
+}
+
+
+export default App
