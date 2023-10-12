@@ -3,7 +3,6 @@ body {
 }
 
 .blog-container {
-  margin: 80px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -42,7 +41,8 @@ body {
 
 @media (min-width: 1024px) {
   .blog-container {
-    margin: 120px;
+    margin-top: 0;
+    padding-top: 80px;
   }
 
   .blog-container .content-container .blog-item {
@@ -56,7 +56,7 @@ body {
   }
 
   .blog-container .content-container .blog-item img {
-    max-width: 55%;
+    max-width: 85%;
   }
 
   .blog-container .content-container .blog-item .text-container {
@@ -67,7 +67,7 @@ body {
 }
 
 
-}
+
 
 
 
