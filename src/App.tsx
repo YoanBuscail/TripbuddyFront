@@ -5,7 +5,7 @@ import  Home from './pages/Home';
 import Itineraries from './pages/Itineraries';
 import TravelPreparation from './pages/TravelPreparation';
 import UserProfile from './pages/UserProfile';
-import Footer from './components/footer/Footer';
+import Footer from './components/Footer/Footer';
 
 function App() {
 
