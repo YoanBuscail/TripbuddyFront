@@ -95,26 +95,26 @@ function Itineraries() {
             setSuggestions([]);
         }
     };
-
+    
     const handleSuggestSelection = async (selectedOption) => {
         const retrieveSuggestion = await getRetrieve(selectedOption.value, sessionToken);
         console.log("Suggestion sélectionnée:", retrieveSuggestion);
-    
+
         const coordinates = retrieveSuggestion.features[0].geometry.coordinates;
         console.log("Coordonnées de la suggestion:", coordinates);
 
         const marker = new client.Marker()
             .setLngLat(coordinates)
-            .addTo(map.current);
-    
+            .addTo(map.current!); // Add a null check here        
+
         const name = retrieveSuggestion.features[0].properties.name;
         const address = retrieveSuggestion.features[0].properties.address;
         const placeFormatted = retrieveSuggestion.features[0].properties.place_formatted;
-    
+        
         const addDestination = () => {
             setItinerary([...itinerary, retrieveSuggestion.features[0]]);
         };
-    
+
         const popupContent = `
             <p><strong>${name}</strong></p>
             ${address ? `<p>${address}</p>` : ''}
@@ -126,6 +126,8 @@ function Itineraries() {
             .setHTML(popupContent);
     
         marker.setPopup(popup);
+
+        
     };
 
 
