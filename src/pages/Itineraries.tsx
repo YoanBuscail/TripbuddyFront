@@ -7,7 +7,8 @@ import { useCategories } from "../hooks/useCategories"
 import Select from 'react-select';
 import { getSuggestions } from '../api/search-api/suggestions';
 import { getRetrieve } from "../api/search-api/retrieve";
-
+import { getDirections } from "../api/search-api/directions";
+import axios from "axios";
 
 function Itineraries() {
     const styleObject = {
@@ -45,6 +46,22 @@ function Itineraries() {
     // state pour l'itinéraire
     const [itinerary, setItinerary] = useState<any[]>([]);
 
+    // State pour stocker les directions
+    const [directions, setDirections] = useState<any>(null);
+
+    // state pour stocker les marqueurs associés aux villes de l'itinéraire
+    const [markers, setMarkers] = useState<any[]>([]);
+
+    // state pour afficher ou non la modale d'enregistrement
+    const [showSaveModal, setShowSaveModal] = useState(false);
+
+    // state pour stocker le nom de l'itinéraire
+    const [itineraryName, setItineraryName] = useState('');
+
+    // state pour stocker la description de l'itinéraire
+    const [itineraryDescription, setItineraryDescription] = useState('');
+
+    
     useEffect(() => {
         if (mapContainer.current && !map.current) {
             // 1) on déclare un objet config, qu'on remplit avec les options nécessaires à créer la map
@@ -95,41 +112,180 @@ function Itineraries() {
             setSuggestions([]);
         }
     };
-    
+
     const handleSuggestSelection = async (selectedOption) => {
         const retrieveSuggestion = await getRetrieve(selectedOption.value, sessionToken);
         console.log("Suggestion sélectionnée:", retrieveSuggestion);
-
+      
         const coordinates = retrieveSuggestion.features[0].geometry.coordinates;
         console.log("Coordonnées de la suggestion:", coordinates);
-
+      
         const marker = new client.Marker()
-            .setLngLat(coordinates)
-            .addTo(map.current!); // Add a null check here        
+          .setLngLat(coordinates)
+          .addTo(map.current!);
+      
+        const addDestination = async () => {
+          const updatedItinerary = [...itinerary, retrieveSuggestion.features[0]];
+          setItinerary(updatedItinerary);
+          addLineToMap(updatedItinerary);
+          setMarkers([...markers, marker]);
 
+            /* // Créez un objet de type "step" pour cette destination
+            const step = {
+                name: retrieveSuggestion.features.properties.name,
+                coordinates: retrieveSuggestion.features.geometry.coordinates,
+            };
+ */
+            // Ajoutez cette étape à l'itinéraire
+            /* updatedItinerary.push(step); */
+          
+            getDirectionsFromMapboxAPI();
+        };
+
+        const getDirectionsFromMapboxAPI = async () => {
+            if (itinerary.length >= 2) {
+                const coordinates = itinerary.map((item) => item.geometry.coordinates);
+                console.log("Coordonnées de l'itinéraire:", coordinates);
+        
+                try {
+                    const directionsData = await getDirections(coordinates);
+        
+                    // Update the directions state with the API response
+                    setDirections(directionsData);
+        
+                    console.log('Itinéraire de Mapbox API:', directionsData);
+                } catch (error) {
+                    console.error('Erreur lors de la récupération de l\'itinéraire:', error);
+                }
+            }
+        };
+      
         const name = retrieveSuggestion.features[0].properties.name;
         const address = retrieveSuggestion.features[0].properties.address;
         const placeFormatted = retrieveSuggestion.features[0].properties.place_formatted;
-        
-        const addDestination = () => {
-            setItinerary([...itinerary, retrieveSuggestion.features[0]]);
-        };
-
+      
         const popupContent = `
-            <p><strong>${name}</strong></p>
-            ${address ? `<p>${address}</p>` : ''}
-            <p>${placeFormatted}</p>
-            <button onclick=${addDestination()}>Ajouter à mon itinéraire</button>
+          <p><strong>${name}</strong></p>
+          ${address ? `<p>${address}</p>` : ''}
+          <p>${placeFormatted}</p>
+          <button onclick=${addDestination()}>Ajouter à mon itinéraire</button>
         `;
-    
+      
         const popup = new client.Popup()
-            .setHTML(popupContent);
-    
+          .setHTML(popupContent);
+      
         marker.setPopup(popup);
+      };
+      
 
+      const addLineToMap = (itinerary) => {
+        if (map.current) {
+          const mapInstance = map.current;
+      
+          if (mapInstance.getSource('line-source')) {
+            mapInstance.removeLayer('line-layer');
+            mapInstance.removeSource('line-source');
+          }
+      
+        const coordinates = itinerary.map((item) => item.geometry.coordinates);
+      
+        mapInstance.addSource('line-source', {
+            type: 'geojson',
+            data: {
+                type: 'Feature',
+                geometry: {
+                    type: 'LineString',
+                    coordinates,
+                },
+                properties: {},
+            },
+        });
+      
+          mapInstance.addLayer({
+            id: 'line-layer',
+            type: 'line',
+            source: 'line-source',
+            layout: {
+              'line-join': 'round',
+              'line-cap': 'round',
+            },
+            paint: {
+              'line-color': '#0074D9',
+              'line-width': 4,
+              'line-translate': [0, 10],
+            }});
+        }
+      };
+      
+    const lineCoordinates = [];
+    itinerary.forEach((item) => {
+        lineCoordinates.push(item.geometry.coordinates);
+        console.log(lineCoordinates);
         
+    });
+
+    // Fonction pour supprimer une ville de l'itinéraire
+    const removeDestination = (index) => {
+        const updatedItinerary = [...itinerary];
+        const updatedMarkers = [...markers];
+    
+        if (index >= 0 && index < updatedItinerary.length && index < updatedMarkers.length) {
+            // Supprimez le marqueur associé à cette ville
+            updatedMarkers[index].remove();
+    
+            updatedItinerary.splice(index, 1);
+            updatedMarkers.splice(index, 1);
+    
+            // Mettez à jour l'itinéraire et les marqueurs
+            setItinerary(updatedItinerary);
+            setMarkers(updatedMarkers);
+    
+            // Mettez à jour le tracé sur la carte
+            addLineToMap(updatedItinerary);
+        }
     };
 
+    const openSaveModal = () => {
+        setShowSaveModal(true);
+    };
+
+    const closeSaveModal = () => {
+        setShowSaveModal(false);
+    };
+    
+    const saveItinerary = async () => {
+        try {
+
+            const authToken = localStorage.getItem('token');
+            const data = {
+                title: itineraryName,
+                /* startDate: itineraryStartDate,
+                endDate: itineraryEndDate,
+                favorite: itineraryFavorite, */
+                steps: itinerary.map((step) => ({
+                    name: step.properties.name,
+                    coordinates: step.geometry.coordinates,
+                })),
+            };
+
+            console.log('Data to be sent:', data);
+    
+            const headers = {
+                Authorization: `Bearer ${authToken}`,
+            };
+    
+            const response = await axios.post('http://tripbuddy.sc3wect2718.universe.wf/api/itineraries', data, { headers });
+    
+            // Traitez la réponse de l'API (par exemple, affichez un message de succès)
+            console.log('Itinéraire créé:', response.data);
+        } catch (error) {
+            // Gérez les erreurs (par exemple, affichez un message d'erreur)
+            console.error('Erreur lors de la création de l\'itinéraire:', error);
+        }
+        
+        // Une fois l'enregistrement terminé, fermez la modal.
+        closeSaveModal();
+    };
 
     return (
         <>
@@ -175,10 +331,34 @@ function Itineraries() {
                                 {itinerary.map((item, index) => (
                                     <li key={index}>
                                         {item.properties.name}
+                                        <button onClick={() => removeDestination(index)}>Supprimer</button>
                                     </li>
                                 ))}
                             </ul>
+
+                            <button onClick={openSaveModal}>Enregistrer l'itinéraire</button>
                         </div>
+
+                        {showSaveModal && (
+                        <div className="modal">
+                            <div className="modal-content">
+                                <h2>Enregistrer l'itinéraire</h2>
+                                <input
+                                    type="text"
+                                    placeholder="Nom de l'itinéraire"
+                                    value={itineraryName}
+                                    onChange={(e) => setItineraryName(e.target.value)}
+                                />
+                                <textarea
+                                    placeholder="Description de l'itinéraire"
+                                    value={itineraryDescription}
+                                    onChange={(e) => setItineraryDescription(e.target.value)}
+                                />
+                                <button onClick={saveItinerary}>Sauvegarder</button>
+                                <button onClick={closeSaveModal}>Annuler</button>
+                            </div>
+                        </div>
+                    )}
 
                     </div>
                 </div>
@@ -187,4 +367,4 @@ function Itineraries() {
 
 }
 
-export default Itineraries;
+export default Itineraries; 
