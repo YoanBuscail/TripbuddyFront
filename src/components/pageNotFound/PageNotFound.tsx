@@ -1,14 +1,16 @@
 import banquise from '../../assets/banquise.jpg';
-import Navbar from '../navbar/Navbar';
+import './PageNotFound.css';
 
 function PageNotFound() {
     return (
-        <div>
-            <Navbar />
-            <h1>404 - Page non trouvée</h1>
+        <div className="page-container">
+            <h1 className="titre">404 - Page non trouvée</h1>
+            <div className="image-container">
             <img src={banquise} alt="Banquise" />
-            <p>Désolée, la page que vous cherchez n'existe pas.</p>
+            <p className="centered-text">Désolé, la page que vous cherchez n'existe pas.</p>
         </div>
+        </div>
+
     );
 }
 

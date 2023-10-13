@@ -1,0 +1,74 @@
+.page-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 20px;
+  }
+  
+  .titre {
+    margin-top: 50px;
+    text-align: center;
+  }
+  
+  .image-container {
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .image-container img {
+    width: 100%;
+    object-fit: cover;
+  }
+  
+  .centered-text {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  
+  /* Pour tablettes et écrans moyens */
+  @media (min-width: 768px) {
+    .page-container {
+      padding-top: 40px;
+    }
+    .titre {
+      margin-top: 80px;
+      font-size: 2em;
+    }
+  
+    .image-container {
+      max-height: 70vh;
+    }
+  
+    .centered-text {
+      font-size: 1.2em;
+    }
+  }
+  
+ /* Pour écrans d'ordinateurs */
+@media (min-width: 1024px) {
+    .titre {
+      font-size: 36px;
+      margin-top: 50px;
+    }
+  
+    .image-container {
+      padding-top: 50px;
+    }
+  
+    .image-container img {
+      object-fit: contain;
+      max-height: 40vh;  /* Ajouté pour éviter que l'image ne devienne trop grande */
+    }
+  
+    .centered-text {
+      font-size: 1.5em;
+    }
+  }
+  
+  
