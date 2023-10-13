@@ -1,5 +1,6 @@
 interface BlogTextProps {
     content: string;
+    title?:string;
   }
   
   export function BlogText({ content }: BlogTextProps) {
