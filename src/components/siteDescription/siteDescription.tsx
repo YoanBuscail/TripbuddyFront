@@ -1,4 +1,4 @@
-import "./SiteDescription.css";
+import "./siteDescription.css";
 
 import imgSiteDescription from "../../assets/road-trip-4399206_1280-removebg-preview.png";
 
