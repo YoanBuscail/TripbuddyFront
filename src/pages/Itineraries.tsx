@@ -26,6 +26,7 @@ function Itineraries() {
 
     // référence qui contiendra la div destinée à contenir la map
     const mapContainer = useRef<HTMLDivElement | null>(null)
+    
     // référence qui contiendra l'object Map qu'on va créer
     const map = useRef<Map | null>(null)
 
@@ -164,15 +165,28 @@ function Itineraries() {
         const address = retrieveSuggestion.features[0].properties.address;
         const placeFormatted = retrieveSuggestion.features[0].properties.place_formatted;
       
-        const popupContent = `
-          <p><strong>${name}</strong></p>
-          ${address ? `<p>${address}</p>` : ''}
-          <p>${placeFormatted}</p>
-          <button onclick=${addDestination()}>Ajouter à mon itinéraire</button>
+                // Créez un élément bouton
+        const button = document.createElement("button");
+        button.innerHTML = "Ajouter à mon itinéraire";
+        button.id = "add-to-itinerary";
+
+        // Ajoutez un écouteur d'événement
+        button.addEventListener("click", addDestination);
+
+        // Créez votre contenu popup
+        const popupContent = document.createElement("div");
+        popupContent.innerHTML = `
+        <p><strong>${name}</strong></p>
+        ${address ? `<p>${address}</p>` : ''}
+        <p>${placeFormatted}</p>
         `;
-      
+
+        // Ajoutez le bouton au contenu
+        popupContent.appendChild(button);
+
+        
         const popup = new client.Popup()
-          .setHTML(popupContent);
+        .setDOMContent(popupContent);
       
         marker.setPopup(popup);
         };

@@ -5,7 +5,11 @@ import ActionButton from "../actionButtonProfile/ActionButtonProfile";
 import { useNavigate } from "react-router-dom";
 
 function UserInfo({ userData }) {
-    const [user, setUser] = useState({ lastname: 'Nom', firstname: 'Prenom', email: 'Email' });
+    const [user, setUser] = useState({
+        lastname: 'Prénom' ,
+        firstname: 'Nom',
+        email: 'Email'
+    });
     const [isEditing, setIsEditing] = useState(false)
     const navigate = useNavigate();
 
@@ -15,21 +19,15 @@ function UserInfo({ userData }) {
         navigate('/');
     };
 
-
-    
-    
-
-   
-
     useEffect(() => {
+        console.log('userdata dans user' ,user)
+    
         const fetchUserProfile = async () => {
             try {
                 const token = localStorage.getItem('token');  // Récupérez le token du localStorage
                 const response = await axios.get(`http://tripbuddy.sc3wect2718.universe.wf/api/users/${userData.id}`, {
                     headers: {
                         Authorization: `Bearer ${token}`  // Incluez le token dans l'en-tête Authorization
-
-                        
                     }
                 });
                 const fetchedUser = response.data;
@@ -44,9 +42,9 @@ function UserInfo({ userData }) {
             }
         };
         
-        fetchUserProfile();  // Appelez la fonction pour récupérer le profil utilisateur
-    }, [userData.id]);
-        console.log(user)
+        if(userData.id) fetchUserProfile();  // Appelez la fonction pour récupérer le profil utilisateur
+    }, []);
+        
     return (
         
         <div className="user-info-container">
