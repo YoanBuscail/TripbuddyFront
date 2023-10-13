@@ -135,7 +135,7 @@ function Itineraries() {
                 name: retrieveSuggestion.features.properties.name,
                 coordinates: retrieveSuggestion.features.geometry.coordinates,
             };
- */
+            */
             // Ajoutez cette étape à l'itinéraire
             /* updatedItinerary.push(step); */
           
@@ -158,7 +158,7 @@ function Itineraries() {
                     console.error('Erreur lors de la récupération de l\'itinéraire:', error);
                 }
             }
-        };
+        }
       
         const name = retrieveSuggestion.features[0].properties.name;
         const address = retrieveSuggestion.features[0].properties.address;
@@ -175,52 +175,54 @@ function Itineraries() {
           .setHTML(popupContent);
       
         marker.setPopup(popup);
-      };
+        };
       
 
-      const addLineToMap = (itinerary) => {
-        if (map.current) {
-          const mapInstance = map.current;
+        // Fonction pour ajouter le tracé de l'itinéraire sur la carte
+        const addLineToMap = (itinerary) => {
+            if (map.current) {
+                const mapInstance = map.current;
+            
+                if (mapInstance.getSource('line-source')) {
+                    mapInstance.removeLayer('line-layer');
+                    mapInstance.removeSource('line-source');
+                }
+        
+                const coordinates = itinerary.map((item) => item.geometry.coordinates);
+            
+                mapInstance.addSource('line-source', {
+                    type: 'geojson',
+                    data: {
+                        type: 'Feature',
+                        geometry: {
+                            type: 'LineString',
+                            coordinates,
+                        },
+                        properties: {},
+                    },
+                });
+            
+                mapInstance.addLayer({
+                    id: 'line-layer',
+                    type: 'line',
+                    source: 'line-source',
+                    layout: {
+                        'line-join': 'round',
+                        'line-cap': 'round',
+                    },
+                    paint: {
+                        'line-color': '#0074D9',
+                        'line-width': 4,
+                        'line-translate': [0, 10],
+                    }
+                });
+            }
+        };
       
-          if (mapInstance.getSource('line-source')) {
-            mapInstance.removeLayer('line-layer');
-            mapInstance.removeSource('line-source');
-          }
-      
-        const coordinates = itinerary.map((item) => item.geometry.coordinates);
-      
-        mapInstance.addSource('line-source', {
-            type: 'geojson',
-            data: {
-                type: 'Feature',
-                geometry: {
-                    type: 'LineString',
-                    coordinates,
-                },
-                properties: {},
-            },
-        });
-      
-          mapInstance.addLayer({
-            id: 'line-layer',
-            type: 'line',
-            source: 'line-source',
-            layout: {
-              'line-join': 'round',
-              'line-cap': 'round',
-            },
-            paint: {
-              'line-color': '#0074D9',
-              'line-width': 4,
-              'line-translate': [0, 10],
-            }});
-        }
-      };
-      
-    const lineCoordinates = [];
-    itinerary.forEach((item) => {
-        lineCoordinates.push(item.geometry.coordinates);
-        console.log(lineCoordinates);
+        const lineCoordinates = [];
+        itinerary.forEach((item) => {
+            lineCoordinates.push(item.geometry.coordinates);
+            console.log(lineCoordinates);
         
     });
 
@@ -230,17 +232,17 @@ function Itineraries() {
         const updatedMarkers = [...markers];
     
         if (index >= 0 && index < updatedItinerary.length && index < updatedMarkers.length) {
-            // Supprimez le marqueur associé à cette ville
+            // Supprime le marqueur associé à cette ville
             updatedMarkers[index].remove();
     
             updatedItinerary.splice(index, 1);
             updatedMarkers.splice(index, 1);
     
-            // Mettez à jour l'itinéraire et les marqueurs
+            // Met à jour l'itinéraire et les marqueurs
             setItinerary(updatedItinerary);
             setMarkers(updatedMarkers);
     
-            // Mettez à jour le tracé sur la carte
+            // Met à jour le tracé sur la carte
             addLineToMap(updatedItinerary);
         }
     };
@@ -252,10 +254,12 @@ function Itineraries() {
     const closeSaveModal = () => {
         setShowSaveModal(false);
     };
+
     
+
+    // Fonction pour enregistrer l'itinéraire
     const saveItinerary = async () => {
         try {
-
             const authToken = localStorage.getItem('token');
             const data = {
                 title: itineraryName,
@@ -276,16 +280,18 @@ function Itineraries() {
     
             const response = await axios.post('http://tripbuddy.sc3wect2718.universe.wf/api/itineraries', data, { headers });
     
-            // Traitez la réponse de l'API (par exemple, affichez un message de succès)
+            // affiche un message de succès
             console.log('Itinéraire créé:', response.data);
         } catch (error) {
-            // Gérez les erreurs (par exemple, affichez un message d'erreur)
+            // affiche un message d'erreur)
             console.error('Erreur lors de la création de l\'itinéraire:', error);
         }
         
-        // Une fois l'enregistrement terminé, fermez la modal.
+        // Une fois l'enregistrement terminé, ferme la modal.
         closeSaveModal();
     };
+
+
 
     return (
         <>
@@ -313,14 +319,14 @@ function Itineraries() {
                         isSearchable={true} // Active la recherche dans le champ
                         />
                         
-                        {/* Afficher les suggestions ici */}
+                        {/* Affiche les suggestions ici */}
                         <Select
                             options={suggestions?.map((suggestion) => ({value: suggestion.mapbox_id, label: suggestion.name}))}
                             onChange={(selectedOption) => {                
                                 // Appel de la fonction de récupération des détails de la suggestion sélectionnée
                                 handleSuggestSelection(selectedOption);
                             }}
-                            value={null} // Assurez-vous que la valeur soit null au début
+                            value={null} // la valeur est null au début
                             placeholder="Sélectionnez une suggestion"
                             isSearchable={true}
                         />
