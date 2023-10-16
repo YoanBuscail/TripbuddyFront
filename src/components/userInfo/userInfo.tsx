@@ -1,8 +1,8 @@
-import axios from "axios";
 import { useState, useEffect } from "react";
 import "./UserInfo.css"
 import ActionButton from "../actionButtonProfile/ActionButtonProfile";
 import { useNavigate } from "react-router-dom";
+import client from "../../api/back-api/client";
 
 function UserInfo({ userData }) {
     const [user, setUser] = useState({
@@ -25,7 +25,7 @@ function UserInfo({ userData }) {
         const fetchUserProfile = async () => {
             try {
                 const token = localStorage.getItem('token');  // Récupérez le token du localStorage
-                const response = await axios.get(`http://tripbuddy.sc3wect2718.universe.wf/api/users/${userData.id}`, {
+                const response = await client.get(`/users/${userData.id}`, {
                     headers: {
                         Authorization: `Bearer ${token}`  // Incluez le token dans l'en-tête Authorization
                     }
