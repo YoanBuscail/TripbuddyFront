@@ -90,3 +90,8 @@ form{
     left: 50%;
     transform: translate(-50%, -50%) rotate3d(1, 0, 0, 0deg) scale(1);
   }
+
+  .error-message{
+    color: red;
+    font-size: 12px;
+  }
