@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import "./RegistrationForm.css";
 
 function RegistrationForm({ show, toggleLogin }) {
@@ -7,6 +7,9 @@ function RegistrationForm({ show, toggleLogin }) {
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+
+
 
     const handleRegistration = async (e) => {
         e.preventDefault();
@@ -25,11 +28,27 @@ function RegistrationForm({ show, toggleLogin }) {
                 }
             });
             console.log('Inscription réussie:', response.data);
-            // Vous pouvez ici rediriger l'utilisateur ou faire d'autres actions
+
+
+           
+             // Fermer la popup d'inscription
+             toggleLogin();
+            // Forcer un reflow pour que la transition commence
+        setTimeout(() => {
+            // Afficher le message de succès
+            setShowSuccessMessage(true);
+        }, 0);
         } catch (err) {
             console.error('Erreur d\'inscription:', err);
         }
     };
+
+    useEffect(() => {
+        if (showSuccessMessage) {
+            const timer = setTimeout(() => setShowSuccessMessage(false), 3000);
+            return () => clearTimeout(timer);
+        }
+    }, [showSuccessMessage]);
 
     return (
         <div>
@@ -72,6 +91,10 @@ function RegistrationForm({ show, toggleLogin }) {
                     />
                 </form>
             </div>
+
+                 <h2  className={`success-message ${showSuccessMessage ? 'show-success-message' : ''}`}>
+        I           nscription réussie
+                </h2>
         </div>
     );
 }

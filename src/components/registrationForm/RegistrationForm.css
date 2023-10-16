@@ -71,3 +71,22 @@ form{
     color: blue;
     text-decoration: underline;
 }
+
+.success-message {
+    z-index: 30;
+    padding: 15px;
+    position: fixed;
+    background-color: #f4a261;
+    border: 2px solid black;
+    border-radius: 60%;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate3d(1, 0, 0, 530deg) scale(0);
+    left: 50%;
+    transition: all 1s ease-in-out;
+  }
+  
+  .show-success-message {
+
+    left: 50%;
+    transform: translate(-50%, -50%) rotate3d(1, 0, 0, 0deg) scale(1);
+  }
