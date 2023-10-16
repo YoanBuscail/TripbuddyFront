@@ -16,7 +16,7 @@
 .blog-container .content-container {
   display: flex;
   flex-direction: column;
-  align-items: center; 
+  align-items: center;
 }
 
 .blog-container .content-container .blog-item {
@@ -24,7 +24,7 @@
   flex-direction: column;
   margin-bottom: 80px;
   align-items: center;  
-  justify-content: center;  
+  justify-content: center;
 }
 
 .blog-container .content-container .blog-item img {
