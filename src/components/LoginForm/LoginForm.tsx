@@ -1,7 +1,7 @@
-import axios from 'axios';
 import RegistrationForm from "../registrationForm/RegistrationForm";
 import "./LoginForm.css";
 import { useState, useEffect } from 'react';
+import client from '../../api/back-api/client';
 
 function LoginForm({ show, toggleLogin, onUserLogin }) {
 
@@ -24,8 +24,8 @@ function LoginForm({ show, toggleLogin, onUserLogin }) {
 
 
         try {
-            const response = await axios.post(
-                'http://tripbuddy.sc3wect2718.universe.wf/api/login_check',
+            const response = await client.post(
+                '/login_check',
                 {
                     username: email,
                     password: password
@@ -78,7 +78,7 @@ function LoginForm({ show, toggleLogin, onUserLogin }) {
                     
                     <input className="input-submit" type="submit" value="connexion" />
                 </form>
-                <button className="registration-btn" onClick={toggleRegistration}>inscription</button>
+                <button className="registration-btn" onClick={toggleRegistration}>Inscription</button>
             </div>
             <RegistrationForm show={showLogin} toggleLogin={toggleRegistration}/>
         </div>

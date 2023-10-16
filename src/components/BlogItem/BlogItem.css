@@ -1,15 +1,22 @@
 
 
 .blog-container {
+  padding-top: 80px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: #f4a261;
+}
+
+.small-title-blog{
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 .blog-container .content-container {
   display: flex;
   flex-direction: column;
-  align-items: center; 
+  align-items: center;
 }
 
 .blog-container .content-container .blog-item {
@@ -17,13 +24,14 @@
   flex-direction: column;
   margin-bottom: 80px;
   align-items: center;  
-  justify-content: center;  
+  justify-content: center;
 }
 
 .blog-container .content-container .blog-item img {
   max-width: 100%;  
   height: auto;
-  margin: 0 auto;  
+  margin: 0 auto; 
+  margin-bottom: 20px; 
 }
 
 .blog-container .content-container .blog-item .text-container {
