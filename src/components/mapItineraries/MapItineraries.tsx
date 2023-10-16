@@ -105,19 +105,10 @@ export default function MapItineraries({initialCategoryId, initialMapboxId}) {
           .addTo(map.current!);
       
         const addDestination = async () => {
-          const updatedItinerary = [...itinerary, retrieveSuggestion.features[0]];
-          setItinerary(updatedItinerary);
-          addLineToMap(updatedItinerary);
-          setMarkers([...markers, marker]);
-
-            /* // Créez un objet de type "step" pour cette destination
-            const step = {
-                name: retrieveSuggestion.features.properties.name,
-                coordinates: retrieveSuggestion.features.geometry.coordinates,
-            };
-            */
-            // Ajoutez cette étape à l'itinéraire
-            /* updatedItinerary.push(step); */
+            const updatedItinerary = [...itinerary, retrieveSuggestion.features[0]];
+            setItinerary(updatedItinerary);
+            addLineToMap(updatedItinerary);
+            setMarkers([...markers, marker]);
 
             // Mettez à jour la liste des coordonnées de l'itinéraire
             const itineraryCoordinates = updatedItinerary.map((step) => step.geometry.coordinates);
@@ -367,11 +358,7 @@ export default function MapItineraries({initialCategoryId, initialMapboxId}) {
                                     value={itineraryEndDate}
                                     onChange={(e) => setItineraryEndDate(e.target.value)}
                                 />
-                                <textarea
-                                    placeholder="Description de l'itinéraire"
-                                    value={itineraryDescription}
-                                    onChange={(e) => setItineraryDescription(e.target.value)}
-                                />
+                                
                                 <button className="submit-itinerary" onClick={saveItinerary}>Sauvegarder</button>
                                 <button className="cancel-itinerary"onClick={closeSaveModal}>Annuler</button>
                             </div>
