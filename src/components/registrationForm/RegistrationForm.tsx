@@ -17,7 +17,7 @@ function RegistrationForm({ show, toggleLogin }) {
         setLastName('');
         setEmail('');
         setPassword('');
-        setErrorMessage(null); 
+       
     };
 
     const handleRegistration = async (e) => {
@@ -114,7 +114,7 @@ function RegistrationForm({ show, toggleLogin }) {
             </div>
 
                  <h2  className={`success-message ${showSuccessMessage ? 'show-success-message' : ''}`}>
-        I           nscription réussie
+                    Inscription réussie
                 </h2>
         </div>
     );

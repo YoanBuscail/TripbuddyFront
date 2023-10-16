@@ -78,7 +78,7 @@ function LoginForm({ show, toggleLogin, onUserLogin }) {
                     
                     <input className="input-submit" type="submit" value="connexion" />
                 </form>
-                <button className="registration-btn" onClick={toggleRegistration}>inscription</button>
+                <button className="registration-btn" onClick={toggleRegistration}>Inscription</button>
             </div>
             <RegistrationForm show={showLogin} toggleLogin={toggleRegistration}/>
         </div>
