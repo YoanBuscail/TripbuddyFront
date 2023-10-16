@@ -272,7 +272,6 @@ export default function MapItineraries({initialCategoryId, initialMapboxId}) {
                 title: itineraryName,
                 startDate: itineraryStartDate,
                 endDate: itineraryEndDate,
-                description: itineraryDescription,
                 steps: itinerary.map((step) => ({
                     name: step.properties.name,
                     coordinates: step.geometry.coordinates,
