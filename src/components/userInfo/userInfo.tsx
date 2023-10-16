@@ -25,24 +25,36 @@ function UserInfo({ userData }) {
         const fetchUserProfile = async () => {
             try {
                 const token = localStorage.getItem('token');  // Récupérez le token du localStorage
+    
+                // Vérifiez si le token est présent
+                if (!token) {
+                    console.error("Token absent. Redirection vers la page de connexion.");
+                    handleLogout(); // Effacer le localStorage et rediriger
+                    return;
+                }
+    
                 const response = await axios.get(`http://tripbuddy.sc3wect2718.universe.wf/api/users/${userData.id}`, {
                     headers: {
                         Authorization: `Bearer ${token}`  // Incluez le token dans l'en-tête Authorization
                     }
                 });
+                
                 const fetchedUser = response.data;
-                console.log(fetchedUser.lastname);
                 setUser({
-                    lastname: fetchedUser.lastname ,
+                    lastname: fetchedUser.lastname,
                     firstname: fetchedUser.firstname,
                     email: fetchedUser.email 
                 });
             } catch (error) {
                 console.error("Une erreur est survenue lors de la récupération du profil utilisateur.", error);
+                if (error.response && error.response.status === 401) {
+                    console.error("Token invalide. Redirection vers la page de connexion.");
+                    handleLogout(); // Effacer le localStorage et rediriger
+                }
             }
         };
-        
-        if(userData.id) fetchUserProfile();  // Appelez la fonction pour récupérer le profil utilisateur
+    
+        if (userData.id) fetchUserProfile();  // Appelez la fonction pour récupérer le profil utilisateur
     }, []);
         
     return (
