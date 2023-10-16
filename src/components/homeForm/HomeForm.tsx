@@ -1,5 +1,7 @@
 import "./HomeForm.css"
 import backgroundVideoHomeForm from "../../assets/fire.mp4";
+import { Link } from 'react-router-dom';
+
 
 function HomeForm() {
     return (
@@ -15,7 +17,9 @@ function HomeForm() {
             <form action="">
                 <input className="search-form-home-input-text" type="text"  placeholder= "recherche ta destination"/>
                 <input className="search-form-home-input-text home-category"  type="text"  placeholder= "choisi la catégorie"/>
-                <button className="search-form-home-submit">GO</button>
+                <Link to="/itineraires">
+                    <button className="search-form-home-submit">GO</button>
+                </Link>
                 
             </form>
             </div>

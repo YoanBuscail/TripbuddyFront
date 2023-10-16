@@ -81,7 +81,7 @@ function Itineraries() {
                 ];
             });
 
-            // 3) on crée la map et on la stocker dans la ref prévue à cet effet
+            // 3) on crée la map et on la stocke dans la ref prévue à cet effet
             map.current = new client.Map(config);
         }
     }, [map.current]);
@@ -120,6 +120,16 @@ function Itineraries() {
       
         const coordinates = retrieveSuggestion.features[0].geometry.coordinates;
         console.log("Coordonnées de la suggestion:", coordinates);
+
+        // Ajoutez un peu de marge pour que le marqueur soit centré
+        const padding = { top: 50, bottom: 50, left: 50, right: 50 };
+
+        // Utilisez la méthode flyTo pour centrer la carte sur le marqueur avec animation
+        map.current?.flyTo({
+            center: coordinates,
+            padding: padding,
+            zoom: 6,
+        });
       
         const marker = new client.Marker()
           .setLngLat(coordinates)
@@ -139,7 +149,21 @@ function Itineraries() {
             */
             // Ajoutez cette étape à l'itinéraire
             /* updatedItinerary.push(step); */
-          
+
+            // Mettez à jour la liste des coordonnées de l'itinéraire
+            const itineraryCoordinates = updatedItinerary.map((step) => step.geometry.coordinates);
+
+            // Calculez la boîte englobante des coordonnées de l'itinéraire
+            const bounds = new client.LngLatBounds();
+            itineraryCoordinates.forEach((coordinate) => {
+                bounds.extend(coordinate);
+            });
+
+            // Utilisez une valeur de zoom différente en fonction du nombre d'étapes
+            const zoom = updatedItinerary.length >= 2 ? 4 : 8;
+            // Utilisez la boîte englobante pour centrer la carte
+            map.current?.fitBounds(bounds, { padding: { top: 50, bottom: 50, left: 50, right: 50 }, zoom: zoom });
+
             getDirectionsFromMapboxAPI();
         };
 
@@ -165,7 +189,7 @@ function Itineraries() {
         const address = retrieveSuggestion.features[0].properties.address;
         const placeFormatted = retrieveSuggestion.features[0].properties.place_formatted;
       
-                // Créez un élément bouton
+        // Créez un élément bouton
         const button = document.createElement("button");
         button.innerHTML = "Ajouter à mon itinéraire";
         button.id = "add-to-itinerary";
@@ -280,7 +304,7 @@ function Itineraries() {
                 /* startDate: itineraryStartDate,
                 endDate: itineraryEndDate,
                 favorite: itineraryFavorite, */
-                steps: itinerary.map((step) => ({
+                stepData: itinerary.map((step) => ({
                     name: step.properties.name,
                     coordinates: step.geometry.coordinates,
                 })),
