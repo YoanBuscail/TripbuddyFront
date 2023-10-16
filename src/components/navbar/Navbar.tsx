@@ -45,7 +45,7 @@ function Navbar() {
                         </NavLink>
                         <NavLink to="/itineraires" className= "navlink">
                             <li className="navbar__link second">
-                                itinéraires
+                                Itinéraires
                             </li>
                         </NavLink>
                         <NavLink to="/prepare-ton-voyage" className= "navlink">

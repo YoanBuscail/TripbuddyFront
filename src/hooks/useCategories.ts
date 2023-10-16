@@ -7,7 +7,6 @@ export const useCategories = () => {
     useEffect(() => {
         if (!categories.length) {
             getCategories().then((categories) => {
-                console.log(categories);
                 setCategories(categories);
             });
         }
