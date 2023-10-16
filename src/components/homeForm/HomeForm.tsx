@@ -3,43 +3,42 @@ import backgroundVideoHomeForm from "../../assets/fire.mp4";
 
 import { useCategories } from "../../hooks/useCategories";
 import {useSuggest} from "../../hooks/useSuggest";
-import {useState, useEffect} from "react";
+import {useState} from "react";
 
 import {useNavigate} from 'react-router-dom'
 
 
 function HomeForm() {
-    const [selectedMapboxId, setSelectedMapboxId] = useState<any>('')
-    const [selectedCategoryId, setSelectedCategoryId] = useState<any>('')
+    const [selectedMapboxId, setSelectedMapboxId] = useState<string>('')
+    const [selectedCategoryId, setSelectedCategoryId] = useState<string>('')
     const categories = useCategories()
     const {suggest, suggestions} = useSuggest()
     const navigate = useNavigate()
    
 
     const handleSuggest = (event: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(event.target.value)
-        const selected = suggestions.find((suggestion) => suggestion.name === event.target.value)
-        if(selected) setSelectedMapboxId(selected.mapbox_id)
-        suggest(event.target.value, selectedCategoryId)
-            
+        if(event.target.value) {
+            const selected = suggestions.find((suggestion) => suggestion.name === event.target.value)
+            if(selected) setSelectedMapboxId(selected.mapbox_id)
+            suggest(event.target.value, selectedCategoryId)
+        }
     }
 
     const handleSelectCategory = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const category = categories.find((category) => category.name === event.target.value)
-        setSelectedCategoryId(category.canonical_id)
-        if(selectedMapboxId) suggest(selectedMapboxId, selectedCategoryId)
+        if(event.target.value) {
+            const category = categories.find((category) => category.name === event.target.value)
+            setSelectedCategoryId(category.canonical_id)
+            if(selectedMapboxId) suggest(selectedMapboxId, selectedCategoryId)
+        }
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         const params = new URLSearchParams()
         params.append('mapboxId', selectedMapboxId)
         navigate(`/itineraires?${params.toString()}`)
     }
 
-useEffect(() => {
-console.log(selectedCategoryId)
-}, [selectedCategoryId])
     return (
         <>
             <section className="home-form-itineraries">
