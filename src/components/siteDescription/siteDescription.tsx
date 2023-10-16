@@ -1,4 +1,5 @@
 import "./siteDescription.css";
+import { NavLink } from 'react-router-dom';
 
 import imgSiteDescription from "../../assets/road-trip-4399206_1280-removebg-preview.png";
 
@@ -19,7 +20,7 @@ function SiteDescription(){
                 <div className="site-description-left">
                     <h3 className="title-site-description">Organise ton voyage</h3>
                     <p> Nous simplifions la création de votre itinéraire de voyage idéal, en vous proposant des étapes uniques et des destinations incontournables. Que vous soyez du genre aventureux ou que vous préfériez des vacances relaxantes, nous avons ce qu'il vous faut, n'attendez plus, l'aventure de votre vie vous attend ! </p>
-                    <button>C'est parti !</button>
+                    <NavLink to="/itineraires" className= "navlink"><button>C'est parti !</button></NavLink>
                 </div>
                 
                 <img src={imgSiteDescription} alt=""/>

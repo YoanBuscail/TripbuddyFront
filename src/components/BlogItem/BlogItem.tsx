@@ -18,7 +18,7 @@ export function BlogItem({ imgSrc, imgAlt, content, title, className }: BlogItem
       <BlogImage src={imgSrc} alt={imgAlt} />
       </div>
       <div className="text-container">
-        <h3>{title}</h3>
+        <h3 className='small-title-blog'>{title}</h3>
       <BlogText content={content} />
       
     </div>
