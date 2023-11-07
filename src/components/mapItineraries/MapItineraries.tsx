@@ -19,6 +19,12 @@ export default function MapItineraries({ initialCategoryId, initialMapboxId }) {
     // référence qui contiendra l'object Map qu'on va créer
     const map = useRef<Map | null>(null)
 
+    // State pour le message d'erreur
+    const [errorMessage, setErrorMessage] = useState('');
+
+    // State pour le message de succès
+    const [successMessage, setSuccessMessage] = useState('');
+
     // state de la liste des suggestions
     const { suggestions, suggest } = useSuggest()
 
@@ -47,9 +53,6 @@ export default function MapItineraries({ initialCategoryId, initialMapboxId }) {
     // state pour stocker le nom de l'itinéraire
     const [itineraryName, setItineraryName] = useState('');
 
-    // state pour stocker la description de l'itinéraire
-    const [itineraryDescription, setItineraryDescription] = useState('');
-
     const [itineraryStartDate, setItineraryStartDate] = useState('');
 
     const [itineraryEndDate, setItineraryEndDate] = useState('');
@@ -65,21 +68,24 @@ export default function MapItineraries({ initialCategoryId, initialMapboxId }) {
                 zoom: 8,
             };
 
-            // 2) si la geolocalisation est activée sur le navigateur, on center la map sur la position du user
-            navigator?.geolocation?.getCurrentPosition((position) => {
-                config.center = [
-                    position.coords.longitude,
-                    position.coords.latitude,
-                ];
-            });
+            // 2) si la géolocalisation est activée sur le navigateur, on centre la carte sur la position de l'utilisateur
+        navigator?.geolocation?.getCurrentPosition((position) => {
+            config.center = [
+                position.coords.longitude,
+                position.coords.latitude,
+            ];
+
+            // Mise à jour de la carte avec la nouvelle position
+            map.current?.setCenter(config.center);
 
             // 3) on crée la map et on la stocke dans la ref prévue à cet effet
             map.current = new client.Map(config);
 
-            // si on a deja un mapbox id dans l'url (ça veut dire qu'on vient de la page de d'accueil), on affiche la destination correspondante
+            // si on a déjà un mapbox id dans l'URL (ça veut dire qu'on vient de la page d'accueil), on affiche la destination correspondante
             if (initialMapboxId) {
                 handleSuggestSelection(initialMapboxId);
             }
+        });
         }
 
     }, [map.current]);
@@ -125,6 +131,12 @@ export default function MapItineraries({ initialCategoryId, initialMapboxId }) {
             map.current?.fitBounds(bounds, { padding: { top: 50, bottom: 50, left: 50, right: 50 }, zoom: zoom });
 
             getDirectionsFromMapboxAPI();
+
+            // Réinitialisez la suggestion sélectionnée
+            setSelectedSuggestion(null);
+
+            // Fermez la popup
+            popup.remove();
         };
 
         const getDirectionsFromMapboxAPI = async () => {
@@ -214,7 +226,7 @@ export default function MapItineraries({ initialCategoryId, initialMapboxId }) {
                 paint: {
                     'line-color': '#0074D9',
                     'line-width': 4,
-                    'line-translate': [0, 10],
+                    'line-translate': [0, 2],
                 }
             });
         }
@@ -257,35 +269,48 @@ export default function MapItineraries({ initialCategoryId, initialMapboxId }) {
 
 
 
-    // Fonction pour enregistrer l'itinéraire
+   // Fonction pour enregistrer l'itinéraire
     const saveItinerary = async () => {
         try {
-            const authToken = localStorage.getItem('token');
-            const data = {
-                title: itineraryName,
-                startDate: itineraryStartDate,
-                endDate: itineraryEndDate,
-                steps: itinerary.map((step) => ({
-                    name: step.properties.name,
-                    coordinates: step.geometry.coordinates,
-                })),
-            };
+            // Envoi de la demande au serveur
+            try {
+                const data = {
+                    title: itineraryName,
+                    startDate: itineraryStartDate,
+                    endDate: itineraryEndDate,
+                    steps: itinerary.map((step) => ({
+                        name: step.properties.name,
+                        coordinates: step.geometry.coordinates,
+                    })),
+                };
 
-            const headers = {
-                Authorization: `Bearer ${authToken}`,
-            };
+                const authToken = localStorage.getItem('token');
 
-            const response = await apiClient.post('/itineraries', data, { headers });
+                const headers = {
+                    Authorization: `Bearer ${authToken}`,
+                };
 
-            // affiche un message de succès
-            console.log('Itinéraire créé:', response.data);
+                const response = await apiClient.post('/itineraries', data, { headers });
+
+                if (response.status === 201) {
+                    // La demande a réussi
+                    setSuccessMessage('Votre itinéraire a bien été sauvegardé !');
+                    console.log('Itinéraire créé:', response.data);
+
+                    
+                } else {
+                    // La demande a échoué, affichez un message d'erreur
+                    setErrorMessage('Vous devez être connecté pour enregistrer un itinéraire.');
+                }
+            } catch (error) {
+                // Affiche un message d'erreur en cas d'erreur lors de la demande
+                console.error('Erreur lors de la création de l\'itinéraire:', error);
+                setErrorMessage('Vous devez être connecté pour enregistrer un itinéraire.');
+            }
         } catch (error) {
-            // affiche un message d'erreur)
-            console.error('Erreur lors de la création de l\'itinéraire:', error);
+            // Gère les erreurs ici...
+            console.error('Erreur lors de la sauvegarde de l\'itinéraire:', error);
         }
-
-        // Une fois l'enregistrement terminé, ferme la modal.
-        closeSaveModal();
     };
 
     return (
@@ -295,6 +320,16 @@ export default function MapItineraries({ initialCategoryId, initialMapboxId }) {
                 (
                     <div className="itinerary-modal">
                         <h2>Enregistrer l'itinéraire</h2>
+                        {errorMessage && (
+                            <div className="message-error">
+                                {errorMessage}
+                            </div>
+                        )}
+                        {successMessage && (
+                                    <div className="message-success">
+                                        {successMessage}
+                                    </div>
+                                )}
                         <input
                             type="text"
                             placeholder="Nom de l'itinéraire"
@@ -318,7 +353,7 @@ export default function MapItineraries({ initialCategoryId, initialMapboxId }) {
                             <button className="btn primary" onClick={closeSaveModal}>Annuler</button>
                             <button className="btn cancel" onClick={saveItinerary}>Sauvegarder</button>
                         </div>
-
+                        
                     </div>
                 )
                 :
@@ -335,6 +370,7 @@ export default function MapItineraries({ initialCategoryId, initialMapboxId }) {
                             value={category ? { value: category.canonical_id, label: category.name } : null}
                             placeholder="Selectionnez une catégorie"
                             isSearchable={true} // Active la recherche dans le champ
+                            styles={{ control: (provided) => ({ ...provided, fontFamily: 'Poppins, sans-serif' }), menu: (provided) => ({ ...provided, fontFamily: 'Poppins, sans-serif' })  }}
                         />
 
                         {/* Affiche les suggestions ici */}
@@ -353,12 +389,15 @@ export default function MapItineraries({ initialCategoryId, initialMapboxId }) {
                             }}
                             placeholder="Sélectionnez une suggestion"
                             isSearchable={true}
+                            styles={{ control: (provided) => ({ ...provided, fontFamily: 'Poppins, sans-serif' }), menu: (provided) => ({ ...provided, fontFamily: 'Poppins, sans-serif' }), // Applique la police au menu
+                            }}
                         />
 
 
                         <div className="itinerary-container">
                             {itinerary?.length ? (<>
                                 <h2>Votre itinéraire</h2>
+                               
                                 <ul className="itinerary">
                                     {itinerary.map((item, index) => (
                                         <li key={index}>

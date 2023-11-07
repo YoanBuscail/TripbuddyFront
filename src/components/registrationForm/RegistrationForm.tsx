@@ -9,6 +9,7 @@ function RegistrationForm({ show, toggleLogin }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+    const [validationErrors, setValidationErrors] = useState([]);
 
     const handleClose = () => {
         toggleLogin();
@@ -23,10 +24,10 @@ function RegistrationForm({ show, toggleLogin }) {
     const handleRegistration = async (e) => {
         e.preventDefault();
 
-        if (password.length < 6) {
+        /* if (password.length < 6) {
             setErrorMessage("Votre mot de passe doit contenir au minimum 6 caractères.");
             return;
-        }
+        } */
 
 
         
@@ -45,17 +46,23 @@ function RegistrationForm({ show, toggleLogin }) {
             console.log('Inscription réussie:', response.data);
             
             setErrorMessage(null);
-             // Fermer la popup d'inscription
-             toggleLogin();
+            setValidationErrors([]); // Réinitialise les erreurs de validation
+            // Fermer la popup d'inscription
+            toggleLogin();
             // Forcer un reflow pour que la transition commence
-        setTimeout(() => {
-            // Afficher le message de succès
-            setShowSuccessMessage(true);
-        }, 0);
+            setTimeout(() => {
+                // Afficher le message de succès
+                setShowSuccessMessage(true);
+            }, 0);
         } catch (err) {
             if (err.response && err.response.status === 400) {
-                // Si le code d'état est 400, on suppose que l'e-mail est déjà utilisé
-                setErrorMessage("Cette adresse e-mail est déjà utilisée");
+                if (err.response.data && err.response.data.errors) {
+                    // Si des erreurs de validation sont retournées, les afficher
+                    setValidationErrors(err.response.data.errors);
+                } else {
+                    // Sinon, afficher un message générique
+                    setErrorMessage("Une erreur s'est produite. Veuillez réessayer.");
+                }
             } else {
                 setErrorMessage("Une erreur s'est produite. Veuillez réessayer.");
             }
@@ -76,6 +83,14 @@ function RegistrationForm({ show, toggleLogin }) {
                 <span className="close-btn" onClick={handleClose}>&times;</span>
                 <h2>Inscription</h2>
                 {errorMessage && <p className="error-message">{errorMessage}</p>}
+                {validationErrors.length > 0 && (
+                    <ul className="error-message">
+                        {validationErrors.map((error, index) => (
+                            <li className="error-message" key={index}>{error}</li>
+                        ))}
+                    </ul>
+                )}
+            
                 <form onSubmit={handleRegistration}>
                     <input 
                         className="input-texte" 

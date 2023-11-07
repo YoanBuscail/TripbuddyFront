@@ -169,3 +169,23 @@
     align-items: center;
     gap: 1em;
 }
+
+/* Styles pour les messages d'erreur */
+.message-error {
+    position: absolute;
+    color: red;
+    font-weight: bold;
+    top: 7em; /* Positionnez le message en haut de la modal */
+    left: 2em; /* Positionnez le message tout à gauche */
+}
+
+/* Styles pour les messages de succès */
+.message-success {
+    position: absolute;
+    color: green; /* Couleur du texte en vert */
+    font-weight: bold; /* Texte en gras */
+    top: 7em; /* Positionnez le message en haut de la modal */
+    left: 2em; /* Positionnez le message tout à gauche */
+}
+
+
