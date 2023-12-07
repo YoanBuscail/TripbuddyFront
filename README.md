@@ -1,27 +1,39 @@
-# React + TypeScript + Vite
+# TripBuddy - Planification de Voyage
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Présentation du Projet
 
-Currently, two official plugins are available:
+Bienvenue sur TripBuddy, votre compagnon de voyage ultime ! TripBuddy est un site de planification de voyage conçu pour simplifier l'organisation de vos aventures. Que vous soyez un voyageur chevronné ou que vous planifiiez votre premier voyage, TripBuddy vous offre une expérience conviviale et interactive.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Fonctionnalités Clés
 
-## Expanding the ESLint configuration
+1. **Carte Interactive :** Explorez le monde à travers notre carte interactive alimentée par l'API Mapbox. Recherchez des lieux selon différentes catégories telles que restaurants, attractions, hôtels, et bien plus encore.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+2. **Planification Intuitive :** Créez un compte pour planifier vos voyages en toute simplicité. Ajoutez des marqueurs sur la carte pour indiquer les endroits que vous souhaitez visiter.
 
-- Configure the top-level `parserOptions` property like this:
+3. **Détails des Destinations :** Cliquez sur un marqueur pour afficher une pop-up détaillant les informations essentielles sur la destination. Des descriptions, des photos et des avis vous aideront à prendre des décisions informées.
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
+4. **Itinéraire Personnalisé :** Ajoutez des destinations à votre itinéraire en un clic. Visualisez votre itinéraire sur la carte avec un tracé clair et compréhensible.
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+5. **Sauvegarde d'Itinéraire :** Enregistrez vos itinéraires pour les retrouver facilement lors de vos prochains voyages. Consultez-les à tout moment sur votre page de profil.
+
+6. **Conseils de Voyage :** Trouvez des conseils utiles pour préparer au mieux votre voyage. Des recommandations sur la préparation, les documents nécessaires et bien plus encore.
+
+## Captures d'écran
+
+![Capture d'écran Home](https://github.com/YoanBuscail/TripbuddyFront/blob/feature-Yo/src/assets/trip.png)
+
+![Capture d'écran Itinéraire](https://github.com/YoanBuscail/TripbuddyFront/blob/feature-Yo/src/assets/map8.png))
+
+## Technologies Utilisées
+
+TripBuddy repose sur des technologies modernes pour offrir une expérience utilisateur optimale :
+
+- **Symfony** pour l'API côté serveur.
+- **React** pour le développement du front-end interactif.
+- **Mapbox API** pour une cartographie précise et riche en fonctionnalités.
+- **Base de Données** pour stocker les itinéraires des utilisateurs.
+- **PHP** pour la gestion côté serveur.
+
+
+
+## Bon voyage avec TripBuddy ! 🌍✈️
