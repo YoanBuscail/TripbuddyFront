@@ -22,7 +22,7 @@ Bienvenue sur TripBuddy, votre compagnon de voyage ultime ! TripBuddy est un sit
 
 ![Capture d'écran Home](https://github.com/YoanBuscail/TripbuddyFront/blob/feature-Yo/src/assets/trip.png)
 
-![Capture d'écran Itinéraire](https://github.com/YoanBuscail/TripbuddyFront/blob/feature-Yo/src/assets/map8.png))
+![Capture d'écran Itinéraire](https://github.com/YoanBuscail/TripbuddyFront/blob/feature-Yo/src/assets/map8.png)
 
 ## Technologies Utilisées
 
