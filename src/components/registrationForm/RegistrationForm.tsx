@@ -32,7 +32,7 @@ function RegistrationForm({ show, toggleLogin }) {
 
         
         try {
-            const response = await axios.post('http://tripbuddy.sc3wect2718.universe.wf/api/users', {
+            const response = await axios.post('http://localhost/projet-5-carnet-voyageur-back/apotheose/tripbuddy/api/users', {
                 firstname: firstName,
                 lastname: lastName,
                 email,
